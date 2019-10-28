@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.LevelController">
+  <children>
+    <ImageView fitHeight="400.0" fitWidth="1086.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-54.0" AnchorPane.rightAnchor="-279.33331298828125" AnchorPane.topAnchor="0.0">
+      <image>
+        <Image url="@../Images/LargerView.jpg" />
+      </image>
+    </ImageView>
+    <GridPane layoutX="118.5" layoutY="54.5">
+      <children>
+        <GridPane id="Row1" gridLinesVisible="true">
+          <children>
+            <ImageView fx:id="cell1" fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="cell2" fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fx:id="cell3" fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fx:id="cell4" fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane id="Row2" gridLinesVisible="true" GridPane.rowIndex="1">
+          <children>
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView id="Row2" fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane id="Row3" gridLinesVisible="true" GridPane.rowIndex="2">
+          <children>
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane id="Row4" gridLinesVisible="true" GridPane.rowIndex="3">
+          <children>
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane id="Row5" gridLinesVisible="true" GridPane.rowIndex="4">
+          <children>
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+            <ImageView fitHeight="65.0" fitWidth="53.0" onDragDropped="#plantDropped" onDragOver="#plantDraggingOver" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="53.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <VBox layoutX="510.0" layoutY="8.0" prefHeight="35.0" prefWidth="86.0">
+      <children>
+        <MenuButton fx:id="menu" mnemonicParsing="false" text="Menu">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Save and Continue" />
+            <MenuItem mnemonicParsing="false" text="Save and go to Main Menu" />
+            <MenuItem mnemonicParsing="false" text="Go Back to Main Menu" />
+          </items>
+        </MenuButton>
+      </children>
+    </VBox>
+    <TitledPane id="sunToken" animated="false" layoutY="2.0" prefHeight="52.0" prefWidth="121.0" text="Sun Tokens">
+      <content>
+        <AnchorPane fx:id="sunToken" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <children>
+            <TextField layoutX="-15.0" layoutY="1.0" />
+          </children>
+        </AnchorPane>
+      </content>
+    </TitledPane>
+    <GridPane gridLinesVisible="true" layoutX="86.0" layoutY="55.0" prefHeight="325.0" prefWidth="30.65216064453125">
+      <children>
+        <ImageView fx:id="PlantCard1" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../Images/lawnmower.jpg" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="PlantCard2" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+          <image>
+            <Image url="@../Images/lawnmower.jpg" />
+          </image>
+        </ImageView>
+        <ImageView id="PlantCard3" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
+          <image>
+            <Image url="@../Images/lawnmower.jpg" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="PlantCard3" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3">
+          <image>
+            <Image url="@../Images/lawnmower.jpg" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="PlantCard4" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4">
+          <image>
+            <Image url="@../Images/lawnmower.jpg" />
+          </image>
+        </ImageView>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <ProgressBar layoutX="396.0" layoutY="9.0" prefHeight="25.0" prefWidth="86.0" progress="0.0" />
+    <TextField layoutX="334.0" layoutY="9.0" prefHeight="25.0" prefWidth="63.0" text="Zombies" />
+    <GridPane gridLinesVisible="true" layoutX="36.0" layoutY="130.0">
+      <children>
+        <ImageView id="PlantCard1" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../Images/Pea%20shooter.gif" />
+          </image>
+        </ImageView>
+        <ImageView id="PlantCard2" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+          <image>
+            <Image url="@../Images/Sunflower.png" />
+          </image>
+        </ImageView>
+        <ImageView id="PlantCard3" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+          <image>
+            <Image url="@../Images/Walnut.png" />
+          </image>
+        </ImageView>
+        <ImageView id="PlantCard4" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+          <image>
+            <Image url="@../Images/CherryBomb.png" />
+          </image>
+        </ImageView>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+</AnchorPane>
