@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="310.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LevelSelect">
+   <children>
+      <ImageView fitHeight="387.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/levelSelect.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="level1" layoutX="192.0" layoutY="55.0" mnemonicParsing="false" onAction="#changeScene_levelScene" prefHeight="26.0" prefWidth="178.0" text="Level 1" />
+      <Button fx:id="level5" layoutX="192.0" layoutY="259.0" mnemonicParsing="false" onAction="#changeScene_levelScene" prefHeight="26.0" prefWidth="178.0" text="Level 5" />
+      <Button fx:id="level4" layoutX="192.0" layoutY="207.0" mnemonicParsing="false" onAction="#changeScene_levelScene" prefHeight="26.0" prefWidth="178.0" text="Level 4" />
+      <Button fx:id="level3" layoutX="192.0" layoutY="155.0" mnemonicParsing="false" onAction="#changeScene_levelScene" prefHeight="26.0" prefWidth="178.0" text="Level 3" />
+      <Button fx:id="level2" layoutX="192.0" layoutY="104.0" mnemonicParsing="false" onAction="#changeScene_levelScene" prefHeight="26.0" prefWidth="178.0" text="Level 2" />
+   </children>
+</AnchorPane>

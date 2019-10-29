@@ -13,7 +13,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("PlantVsZombies");
         primaryStage.setScene(new Scene(root, 650, 400));
-        Parent rootLevel = FXMLLoader.load(getClass().getResource("LevelScene.fxml"));
+        Parent rootLevel = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         primaryStage.setScene((new Scene(rootLevel, 650, 400)));
         primaryStage.show();
     }
