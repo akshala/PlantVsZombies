@@ -39,7 +39,7 @@ public class LevelSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(timer.progressProperty(), 0)),
+                new KeyFrame(Duration.minutes(0), new KeyValue(timer.progressProperty(), 0)),
                 new KeyFrame(Duration.minutes(0.5), new KeyValue(timer.progressProperty(), 1))
         );
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -83,5 +83,4 @@ public class LevelSceneController implements Initializable {
         Stage oldPlayer_stage = (Stage) menu.getScene().getWindow();
         oldPlayer_stage.setScene(oldPlayer_scene);
     }
-
 }
