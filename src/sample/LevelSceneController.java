@@ -1,8 +1,12 @@
 package sample;
 
+import javafx.animation.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,19 +16,35 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
-public class LevelSceneController {
+public class LevelSceneController implements Initializable {
 
     @FXML
     private MenuButton menu;
 
     @FXML
     private ProgressBar timer;
+
+    @FXML
+    private ImageView sun;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(timer.progressProperty(), 0)),
+                new KeyFrame(Duration.minutes(0.5), new KeyValue(timer.progressProperty(), 1))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
 
     @FXML
     void plantDragDetected(MouseEvent event) {
@@ -64,10 +84,4 @@ public class LevelSceneController {
         oldPlayer_stage.setScene(oldPlayer_scene);
     }
 
-    public void progressBarShift(ActionEvent event) throws InterruptedException {
-        for(int i=0; i<1000; i++){
-            timer.setProgress(i/1000);
-            TimeUnit.SECONDS.sleep(10);
-        }
-    }
 }

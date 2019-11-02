@@ -229,7 +229,7 @@
       </rowConstraints>
     </GridPane>
     <ProgressBar fx:id="timer" layoutX="396.0" layoutY="9.0" prefHeight="25.0" prefWidth="86.0" progress="0.0" />
-    <TextField layoutX="334.0" layoutY="9.0" onAction="#progressBarShift" prefHeight="25.0" prefWidth="63.0" text="Timer" />
+    <TextField layoutX="334.0" layoutY="9.0" prefHeight="25.0" prefWidth="63.0" text="Timer" />
     <GridPane gridLinesVisible="true" layoutX="36.0" layoutY="130.0">
       <children>
         <ImageView id="PlantCard1" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true">
