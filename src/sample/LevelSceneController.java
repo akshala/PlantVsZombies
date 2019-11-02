@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
+import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LevelSceneController implements Initializable {
 
+    private int sunToken = 0;
 
     @FXML
     private AnchorPane MainPain;
@@ -53,7 +55,19 @@ public class LevelSceneController implements Initializable {
     private ImageView balloonZombie;
 
     @FXML
+    private ImageView coneZombie;
+
+    @FXML
     private ImageView sun1;
+
+    @FXML
+    private ImageView sun2;
+
+    @FXML
+    private ImageView sun3;
+
+    @FXML
+    private TextField sunPoints ;
 
 
     @Override
@@ -79,6 +93,13 @@ public class LevelSceneController implements Initializable {
         BalloonZombTrans.setCycleCount(500);
         BalloonZombTrans.play();
 
+        TranslateTransition ConeZombTrans = new TranslateTransition();
+        ConeZombTrans.setNode(coneZombie);
+        ConeZombTrans.setToX(-500);
+        ConeZombTrans.setDuration(Duration.seconds(10));
+        ConeZombTrans.setCycleCount(500);
+        ConeZombTrans.play();
+
 //        for(int i = 0; i < 5; i ++){
 //            ZI[i] = new Image(getClass().getResource("/Images/FlagZombie.gif").toExternalForm());
 //            ZV[i] = new ImageView(ZI[i]);
@@ -98,12 +119,29 @@ public class LevelSceneController implements Initializable {
         Sun1Trans.setDuration(Duration.seconds(10));
         Sun1Trans.setCycleCount(500);
         Sun1Trans.play();
+
+        TranslateTransition Sun2Trans = new TranslateTransition();
+        Sun2Trans.setNode(sun2);
+        Sun2Trans.setToY(500);
+        Sun2Trans.setDuration(Duration.seconds(20));
+        Sun2Trans.setCycleCount(500);
+        Sun2Trans.play();
+
+        TranslateTransition Sun3Trans = new TranslateTransition();
+        Sun3Trans.setNode(sun3);
+        Sun3Trans.setToY(500);
+        Sun3Trans.setDuration(Duration.seconds(10));
+        Sun3Trans.setCycleCount(500);
+        Sun3Trans.play();
     }
 
     @FXML
     void sunDisappear_onClick(MouseEvent event){
         ImageView sunImage = (ImageView) event.getSource();
         sunImage.setVisible(false);
+        sunToken += 25;
+        String points = Integer.toString(sunToken);
+        sunPoints.setText(points);
     }
 
     @FXML

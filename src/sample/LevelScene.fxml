@@ -180,14 +180,10 @@
         </MenuButton>
       </children>
     </VBox>
-    <TitledPane id="sunToken" animated="false" layoutY="2.0" prefHeight="52.0" prefWidth="121.0" text="Sun Tokens">
-      <content>
-        <AnchorPane fx:id="sunToken" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-          <children>
-            <TextField layoutX="-15.0" layoutY="1.0" />
-          </children>
-        </AnchorPane>
-      </content>
+    <TitledPane id="sunToken" animated="false" layoutX="1.0" prefHeight="52.0" prefWidth="121.0" text="Sun Tokens">
+         <content>
+            <TextField fx:id="sunPoints" />
+         </content>
     </TitledPane>
     <GridPane gridLinesVisible="true" layoutX="86.0" layoutY="55.0" prefHeight="325.0" prefWidth="30.65216064453125">
       <children>
@@ -323,5 +319,30 @@
             </ImageView>
          </children>
       </GridPane>
+      <GridPane layoutX="851.0" layoutY="127.0" prefHeight="81.0" prefWidth="86.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView fx:id="coneZombie" fitHeight="101.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/ConeZombie.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <ImageView fx:id="sun3" fitHeight="39.0" fitWidth="46.0" layoutX="334.0" layoutY="-49.0" onMouseClicked="#sunDisappear_onClick" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/sun.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="sun2" fitHeight="39.0" fitWidth="46.0" layoutX="471.0" layoutY="-195.0" onMouseClicked="#sunDisappear_onClick" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/sun.jpg" />
+         </image>
+      </ImageView>
   </children>
 </AnchorPane>
