@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -27,6 +29,10 @@ import java.util.concurrent.TimeUnit;
 
 public class LevelSceneController implements Initializable {
 
+
+    @FXML
+    private AnchorPane MainPain;
+
     @FXML
     private MenuButton menu;
 
@@ -36,6 +42,14 @@ public class LevelSceneController implements Initializable {
     @FXML
     private ImageView sun;
 
+    @FXML
+    private ImageView Zombie1;
+    private ImageView[] ZV = new ImageView[5];
+
+    @FXML
+    private Image[] ZI = new Image[5];
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Timeline timeline = new Timeline(
@@ -44,6 +58,18 @@ public class LevelSceneController implements Initializable {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        TranslateTransition ZombTrans = new TranslateTransition();
+        ZombTrans.setNode(Zombie1);
+        ZombTrans.setToX(-500);
+        ZombTrans.setDuration(Duration.seconds(10));
+        ZombTrans.setCycleCount(500);
+        ZombTrans.play();
+
+        for(int i = 0; i < 5; i ++){
+            ZI[i] = new Image(getClass().getResource("/Images/FlagZombie.gif").toExternalForm());
+            ZV[i] = new ImageView(ZI[i]);
+//            this.MainPain.getChildren().add(ZV[i]);
+        }
     }
 
     @FXML
