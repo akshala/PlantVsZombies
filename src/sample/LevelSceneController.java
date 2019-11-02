@@ -58,6 +58,7 @@ public class LevelSceneController implements Initializable {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+
         TranslateTransition ZombTrans = new TranslateTransition();
         ZombTrans.setNode(Zombie1);
         ZombTrans.setToX(-500);
@@ -65,11 +66,24 @@ public class LevelSceneController implements Initializable {
         ZombTrans.setCycleCount(500);
         ZombTrans.play();
 
-        for(int i = 0; i < 5; i ++){
-            ZI[i] = new Image(getClass().getResource("/Images/FlagZombie.gif").toExternalForm());
-            ZV[i] = new ImageView(ZI[i]);
-//            this.MainPain.getChildren().add(ZV[i]);
-        }
+//        for(int i = 0; i < 5; i ++){
+//            ZI[i] = new Image(getClass().getResource("/Images/FlagZombie.gif").toExternalForm());
+//            ZV[i] = new ImageView(ZI[i]);
+////            this.MainPain.getChildren().add(ZV[i]);
+//        }
+
+        TranslateTransition SunTrans = new TranslateTransition();
+        SunTrans.setNode(sun);
+        SunTrans.setToY(500);
+        SunTrans.setDuration(Duration.seconds(10));
+        SunTrans.setCycleCount(500);
+        SunTrans.play();
+    }
+
+    @FXML
+    void sunDisappear_onClick(MouseEvent event){
+        ImageView sunImage = (ImageView) event.getSource();
+        sunImage.setVisible(false);
     }
 
     @FXML
