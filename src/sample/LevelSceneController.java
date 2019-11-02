@@ -78,9 +78,9 @@ public class LevelSceneController implements Initializable {
     }
 
     public void changeScene_mainMenu(ActionEvent event) throws IOException {
-        Parent oldPlayer_parent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-        Scene oldPlayer_scene = new Scene(oldPlayer_parent);
-        Stage oldPlayer_stage = (Stage) menu.getScene().getWindow();
-        oldPlayer_stage.setScene(oldPlayer_scene);
+        Parent new_parent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        Scene new_scene = new Scene(new_parent);
+        Stage old_stage = (Stage) menu.getScene().getWindow();
+        old_stage.setScene(new_scene);
     }
 }
