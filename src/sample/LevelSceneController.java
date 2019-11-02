@@ -49,6 +49,12 @@ public class LevelSceneController implements Initializable {
     @FXML
     private Image[] ZI = new Image[5];
 
+    @FXML
+    private ImageView balloonZombie;
+
+    @FXML
+    private ImageView sun1;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -66,6 +72,13 @@ public class LevelSceneController implements Initializable {
         ZombTrans.setCycleCount(500);
         ZombTrans.play();
 
+        TranslateTransition BalloonZombTrans = new TranslateTransition();
+        BalloonZombTrans.setNode(balloonZombie);
+        BalloonZombTrans.setToX(-500);
+        BalloonZombTrans.setDuration(Duration.seconds(10));
+        BalloonZombTrans.setCycleCount(500);
+        BalloonZombTrans.play();
+
 //        for(int i = 0; i < 5; i ++){
 //            ZI[i] = new Image(getClass().getResource("/Images/FlagZombie.gif").toExternalForm());
 //            ZV[i] = new ImageView(ZI[i]);
@@ -78,6 +91,13 @@ public class LevelSceneController implements Initializable {
         SunTrans.setDuration(Duration.seconds(10));
         SunTrans.setCycleCount(500);
         SunTrans.play();
+
+        TranslateTransition Sun1Trans = new TranslateTransition();
+        Sun1Trans.setNode(sun1);
+        Sun1Trans.setToY(500);
+        Sun1Trans.setDuration(Duration.seconds(10));
+        Sun1Trans.setCycleCount(500);
+        Sun1Trans.play();
     }
 
     @FXML

@@ -293,5 +293,35 @@
             </ImageView>
          </children>
       </GridPane>
+      <GridPane layoutX="738.0" layoutY="242.0" prefHeight="92.0" prefWidth="63.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView fx:id="balloonZombie" fitHeight="101.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/Balloon%20Zombie.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <GridPane layoutX="283.0" layoutY="-107.0" prefHeight="58.0" prefWidth="35.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView fx:id="sun1" fitHeight="39.0" fitWidth="46.0" onMouseClicked="#sunDisappear_onClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/sun.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
   </children>
 </AnchorPane>
