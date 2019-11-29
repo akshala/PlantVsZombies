@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,7 +17,8 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -24,16 +26,41 @@ import java.awt.*;
 import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+
+
 
 public class LevelSceneController implements Initializable {
 
-    private int sunToken = 0;
+    static int sunToken = 0;
+    private String LevelNo;
+    ArrayList<Zombie> Zombies;
+    ArrayList<Sun> Suns;
+    ArrayList<Plant> Plants;
+    Random rand;
 
     @FXML
-    private AnchorPane MainPain;
+    private Pane PeaMainPane;
+
+    @FXML
+    private AnchorPane LevelSceneMainPane;
+
+    @FXML
+    private GridPane Row1;
+
+    @FXML
+    private GridPane Row2;
+
+    @FXML
+    private GridPane Row3;
+
+    @FXML
+    private GridPane Row4;
+
+    @FXML
+    private GridPane Row5;
 
     @FXML
     private MenuButton menu;
@@ -44,18 +71,6 @@ public class LevelSceneController implements Initializable {
     @FXML
     private ImageView sun;
 
-    @FXML
-    private ImageView Zombie1;
-    private ImageView[] ZV = new ImageView[5];
-
-    @FXML
-    private Image[] ZI = new Image[5];
-
-    @FXML
-    private ImageView balloonZombie;
-
-    @FXML
-    private ImageView coneZombie;
 
     @FXML
     private ImageView sun1;
@@ -67,7 +82,7 @@ public class LevelSceneController implements Initializable {
     private ImageView sun3;
 
     @FXML
-    private TextField sunPoints ;
+    static TextField sunPoints ;
 
 
     @Override
@@ -78,62 +93,9 @@ public class LevelSceneController implements Initializable {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
-
-        TranslateTransition ZombTrans = new TranslateTransition();
-        ZombTrans.setNode(Zombie1);
-        ZombTrans.setToX(-500);
-        ZombTrans.setDuration(Duration.seconds(10));
-        ZombTrans.setCycleCount(500);
-        ZombTrans.play();
-
-        TranslateTransition BalloonZombTrans = new TranslateTransition();
-        BalloonZombTrans.setNode(balloonZombie);
-        BalloonZombTrans.setToX(-500);
-        BalloonZombTrans.setDuration(Duration.seconds(10));
-        BalloonZombTrans.setCycleCount(500);
-        BalloonZombTrans.play();
-
-        TranslateTransition ConeZombTrans = new TranslateTransition();
-        ConeZombTrans.setNode(coneZombie);
-        ConeZombTrans.setToX(-500);
-        ConeZombTrans.setDuration(Duration.seconds(10));
-        ConeZombTrans.setCycleCount(500);
-        ConeZombTrans.play();
-
-//        for(int i = 0; i < 5; i ++){
-//            ZI[i] = new Image(getClass().getResource("/Images/FlagZombie.gif").toExternalForm());
-//            ZV[i] = new ImageView(ZI[i]);
-////            this.MainPain.getChildren().add(ZV[i]);
-//        }
-
-        TranslateTransition SunTrans = new TranslateTransition();
-        SunTrans.setNode(sun);
-        SunTrans.setToY(500);
-        SunTrans.setDuration(Duration.seconds(10));
-        SunTrans.setCycleCount(500);
-        SunTrans.play();
-
-        TranslateTransition Sun1Trans = new TranslateTransition();
-        Sun1Trans.setNode(sun1);
-        Sun1Trans.setToY(500);
-        Sun1Trans.setDuration(Duration.seconds(10));
-        Sun1Trans.setCycleCount(500);
-        Sun1Trans.play();
-
-        TranslateTransition Sun2Trans = new TranslateTransition();
-        Sun2Trans.setNode(sun2);
-        Sun2Trans.setToY(500);
-        Sun2Trans.setDuration(Duration.seconds(20));
-        Sun2Trans.setCycleCount(500);
-        Sun2Trans.play();
-
-        TranslateTransition Sun3Trans = new TranslateTransition();
-        Sun3Trans.setNode(sun3);
-        Sun3Trans.setToY(500);
-        Sun3Trans.setDuration(Duration.seconds(10));
-        Sun3Trans.setCycleCount(500);
-        Sun3Trans.play();
+        rand = new Random();
     }
+
 
     @FXML
     void sunDisappear_onClick(MouseEvent event){
@@ -172,6 +134,28 @@ public class LevelSceneController implements Initializable {
         }
         else {
             cell.setImage(new Image(getClass().getResourceAsStream(event.getDragboard().getString())));
+            if(event.getDragboard().getString().equals("/Images/Pea shooter.gif")) {
+
+                Image peaImage = new Image((getClass().getResourceAsStream("/Images/pea.png")));
+
+                ImageView pea = new ImageView(peaImage);
+                pea.setFitHeight(10);
+                pea.setFitWidth(10);
+                //            Scene s = cell.getScene();
+                TranslateTransition T = new TranslateTransition();
+                T.setNode(pea);
+                T.setToX(500);
+
+                T.setDuration(Duration.seconds(5));
+                T.setCycleCount(500);
+                T.play();
+                Pane p = new Pane(pea);
+                System.out.println(cell.getLocalToSceneTransform().getTx());
+                System.out.println(cell.getLocalToSceneTransform().getTy());
+                p.setLayoutX(cell.getLocalToSceneTransform().getTx() + 20);
+                p.setLayoutY(cell.getLocalToSceneTransform().getTy() + 20);
+                PeaMainPane.getChildren().add(p);
+            }
         }
     }
 
@@ -180,5 +164,65 @@ public class LevelSceneController implements Initializable {
         Scene new_scene = new Scene(new_parent);
         Stage old_stage = (Stage) menu.getScene().getWindow();
         old_stage.setScene(new_scene);
+    }
+
+    public void setSceneNumber(String id) {
+        LevelNo = id;
+        System.out.println(LevelNo);
+        if(id.equals("level1")){
+            Row1.setDisable(true);Row5.setDisable(true);
+            Row2.setDisable(true);Row4.setDisable(true);
+            Row1.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+            Row2.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+            Row4.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+            Row5.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        }
+        if(LevelNo.equals("level2")){
+            Row1.setDisable(true);Row5.setDisable(true);
+            Row1.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+            Row5.setBackground(new Background(new BackgroundFill(Color.color(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+        createLevel();
+    }
+
+    private void createLevel() {
+        InitializeZombies();
+        InitializeSuns();
+    }
+
+    private void InitializeZombies() {
+        String[] ZombieTypes = {"/Images/Zombieidle.gif", "/Images/ConeZombie.gif","/Images/flying zombie.gif", "/Images/Balloon Zombie.gif", "/Images/GiantZombie.gif", "/Images/FlagZombie.gif"};
+        Integer[][] LevelZombieTable= {{7, 0, 0, 0, 0, 1},
+                {5, 5, 0, 0, 0, 1},
+                {3, 5, 0, 0, 0, 1},
+                {3, 3, 4, 3, 0, 1},
+                {2, 3, 2, 2, 2, 1}};
+        System.out.println(LevelNo.charAt(5));
+        System.out.println("At initialize zombies !");
+        int level = (int)LevelNo.charAt(5)-49;
+        System.out.println(level);
+        System.out.println("Just printed level number");
+        createZombies(LevelZombieTable[level], ZombieTypes);
+
+    }
+
+    private void createZombies(Integer[] zombieNum, String[] zombieTypes) {
+        Integer[] health = {5,8,8,9,10,5};
+        Integer[] attack = {2,5,5,6,7,5};
+        Zombies = new ArrayList<Zombie>();
+        for(int i = 0; i < 6; i ++){
+            for(int j = 0; j < zombieNum[i]; j++){
+                Zombie zomb = new Zombie(zombieTypes[i], health[i], attack[i], rand.nextInt(20), rand.nextInt(5), LevelSceneMainPane);
+            }
+        }
+    }
+
+    private void InitializeSuns() {
+        int sunNo = 7;
+        Suns = new ArrayList<Sun>();
+        for (int i = 0; i < 7; i ++){
+            Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), 0, LevelSceneMainPane);
+        }
     }
 }
