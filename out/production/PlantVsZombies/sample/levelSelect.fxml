@@ -5,8 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="310.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LevelSelect">
+<AnchorPane fx:id="LevelSelectMain" prefHeight="310.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LevelSelect">
    <children>
       <ImageView fitHeight="387.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
