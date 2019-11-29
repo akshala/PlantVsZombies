@@ -28,12 +28,14 @@ abstract class Type{
 }
 
 abstract class Plant extends Type{
+    ImageView imageView;
     private final int sunCost;
     private final int recharge;
 
-    Plant(int sunCost, int recharge){
+    Plant(int sunCost, int recharge, ImageView imageView){
         this.sunCost = sunCost;
         this.recharge = recharge;
+        this.imageView = imageView;
     }
     int getSunCost(){
         return sunCost;
@@ -58,8 +60,8 @@ final class Pea{
 
 
 class PeaShooter extends Plant{
-    PeaShooter(int sunCost, int recharge){
-        super(sunCost, recharge);
+    PeaShooter(ImageView imageview){
+        super(100, 7, imageview);
     }
     private Pea pea;
 
@@ -123,8 +125,8 @@ class Sun{
 
 
 class Sunflower extends Plant{
-    Sunflower(int sunCost, int recharge){
-        super(sunCost, recharge);
+    Sunflower(ImageView imageview){
+        super(50, 7, imageview);
     }
     Sun sun;
 
@@ -134,8 +136,8 @@ class Sunflower extends Plant{
 }
 
 class CherryBomb extends Plant{
-    CherryBomb(int sunCost, int recharge){
-        super(sunCost, recharge);
+    CherryBomb(ImageView imageview){
+        super(150, 20, imageview);
     }
 
     void attack(){
@@ -144,8 +146,8 @@ class CherryBomb extends Plant{
 }
 
 class WalnutBomb extends Plant{
-    WalnutBomb(int sunCost, int recharge){
-        super(sunCost, recharge);
+    WalnutBomb(ImageView imageview){
+        super(50, 15, imageview);
     }
 
     void attack(){

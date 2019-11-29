@@ -42,6 +42,7 @@ public class LevelSceneController implements Initializable {
     ArrayList<Plant> Plants;
     ArrayList<LawnMower> LawnMowers;
     Random rand;
+    String plant_category;
 
     @FXML
     private Pane PeaMainPane;
@@ -98,54 +99,6 @@ public class LevelSceneController implements Initializable {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
         rand = new Random();
-
-    }
-
-    void collision_with_lawnmower(LawnMower lawnmower_object, Zombie zombie_object){
-        ImageView lawnmower = lawnmower_object.imageView;
-        ImageView zombie = zombie_object.imageView;
-        if(collisionDetection(lawnmower, zombie)){
-            TranslateTransition LawnTrans = new TranslateTransition();
-            LawnTrans.setNode(lawnmower);
-            LawnTrans.setToX(3000);
-            LawnTrans.setDuration(Duration.seconds(10));
-            LawnTrans.play();
-            zombie.setVisible(false);
-            Zombies.remove(zombie);
-            for(Zombie nextZombie: Zombies){
-                if(collisionDetection(lawnmower, nextZombie.imageView)){
-                    nextZombie.imageView.setVisible(false);
-                    Zombies.remove(nextZombie);
-                }
-            }
-        }
-    }
-
-    boolean collisionDetection(ImageView first, ImageView second){
-        System.out.println("collision code");
-        Bounds first_bound = first.localToScene(first.getBoundsInLocal());
-        Bounds second_bound = second.localToScene(second.getBoundsInLocal());
-        System.out.println(first_bound.getCenterX());
-        System.out.println(second_bound.getCenterX());
-        if(first_bound.intersects(second_bound)){
-            System.out.println("Collision");
-            return true;
-        }
-        return false;
-    }
-
-    void thread_collision(ImageView first, ImageView second){
-        Thread t = new Thread(){
-            public void run(){
-                collisionDetection(first, second);
-            }
-        };
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -155,10 +108,10 @@ public class LevelSceneController implements Initializable {
         Dragboard db = PlantCard.startDragAndDrop(TransferMode.ANY);
         ClipboardContent cb = new ClipboardContent();
         switch (PlantCard.getId()){
-            case "PlantCard1" : cb.putString("/Images/Pea shooter.gif");break;
-            case "PlantCard2" : cb.putString("/Images/Sunflower.png");break;
-            case "PlantCard3" : cb.putString("/Images/Walnut.png");break;
-            case "PlantCard4" : cb.putString("/Images/CherryBomb.png");break;
+            case "PlantCard1" : cb.putString("/Images/Pea shooter.gif"); plant_category = "Pea_shooter";break;
+            case "PlantCard2" : cb.putString("/Images/Sunflower.png"); plant_category = "sunflower"; break;
+            case "PlantCard3" : cb.putString("/Images/Walnut.png");plant_category = "walnut"; break;
+            case "PlantCard4" : cb.putString("/Images/CherryBomb.png");plant_category = "cherryBomb"; break;
         }
         db.setContent(cb);
         event.consume();
@@ -177,8 +130,17 @@ public class LevelSceneController implements Initializable {
         }
         else {
             cell.setImage(new Image(getClass().getResourceAsStream(event.getDragboard().getString())));
+            Plant plant;
+            switch(plant_category){
+                case "Pea_shooter" : plant = new PeaShooter(cell); break;
+                case "sunflower" : plant = new Sunflower(cell); break;
+                case "walnut" : plant = new WalnutBomb(cell); break;
+                case "cherryBomb" : plant = new CherryBomb(cell); break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + plant_category);
+            }
+            Plants.add(plant);
             if(event.getDragboard().getString().equals("/Images/Pea shooter.gif")) {
-
                 Image peaImage = new Image((getClass().getResourceAsStream("/Images/pea.png")));
 
                 ImageView pea = new ImageView(peaImage);
@@ -236,13 +198,14 @@ public class LevelSceneController implements Initializable {
 //        for(LawnMower l: LawnMowers){
 //            System.out.println("lawnmower " + l.id);
 //        }
-        System.out.println("createLevel");
-        for(Zombie z: Zombies){
-            System.out.println("zombie");
-        }
+//
+//        System.out.println("createLevel");
+//        for(Zombie z: Zombies){
+//            System.out.println("zombie");
+//        }
         for(LawnMower lawnmower: LawnMowers){
             for(Zombie zombie: Zombies){
-                System.out.println("haha");
+//                System.out.println("haha");
                 Timeline t = new Timeline( new KeyFrame( Duration.seconds(1),(event) -> {
                     collision_with_lawnmower(lawnmower, zombie);
                 }));
@@ -250,8 +213,66 @@ public class LevelSceneController implements Initializable {
                 t.play();
             }
         }
-        System.out.println("level creation done");
+//        System.out.println("level creation done");
     }
+
+    void collision_with_lawnmower(LawnMower lawnmower_object, Zombie zombie_object){
+        ImageView lawnmower = lawnmower_object.imageView;
+        ImageView zombie = zombie_object.imageView;
+        if(collisionDetection(lawnmower, zombie)){
+            TranslateTransition LawnTrans = new TranslateTransition();
+            LawnTrans.setNode(lawnmower);
+            LawnTrans.setToX(3000);
+            LawnTrans.setDuration(Duration.seconds(10));
+            LawnTrans.play();
+            Zombies.remove(zombie_object);
+            removeObject(zombie);
+            for(Zombie nextZombie: Zombies){
+                Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                    ImageView nextZombie_image = nextZombie.imageView;
+                    if(collisionDetection(lawnmower, nextZombie_image)){
+                        Zombies.remove(nextZombie);
+                        removeObject(nextZombie_image);
+                    }
+                }));
+                t.setCycleCount(Animation.INDEFINITE);
+                t.play();
+            }
+        }
+    }
+
+    boolean collisionDetection(ImageView first, ImageView second){
+        System.out.println("collision code");
+        Bounds first_bound = first.localToScene(first.getBoundsInLocal());
+        Bounds second_bound = second.localToScene(second.getBoundsInLocal());
+        System.out.println(first_bound.getCenterX());
+        System.out.println(second_bound.getCenterX());
+        if(first_bound.intersects(second_bound)){
+            System.out.println("Collision");
+            return true;
+        }
+        return false;
+    }
+
+    void removeObject(ImageView imageview){
+        imageview.setVisible(false);
+        LevelSceneMainPane.getChildren().remove(imageview.getParent());
+    }
+
+    void thread_collision(ImageView first, ImageView second){
+        Thread t = new Thread(){
+            public void run(){
+                collisionDetection(first, second);
+            }
+        };
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void InitializeZombies() {
         String[] ZombieTypes = {"/Images/Zombieidle.gif", "/Images/ConeZombie.gif","/Images/flying zombie.gif", "/Images/Balloon Zombie.gif", "/Images/GiantZombie.gif", "/Images/FlagZombie.gif"};
@@ -276,6 +297,7 @@ public class LevelSceneController implements Initializable {
         for(int i = 0; i < 6; i ++){
             for(int j = 0; j < zombieNum[i]; j++){
                 Zombie zomb = new Zombie(zombieTypes[i], health[i], attack[i], rand.nextInt(20), rand.nextInt(5), LevelSceneMainPane);
+                Zombies.add(zomb);
             }
         }
     }
@@ -285,6 +307,7 @@ public class LevelSceneController implements Initializable {
         Suns = new ArrayList<Sun>();
         for (int i = 0; i < sunNo; i ++){
             Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), 0, LevelSceneMainPane, this);
+            Suns.add(sun);
         }
     }
 
