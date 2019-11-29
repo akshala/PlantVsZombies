@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.util.Pair;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.awt.*;
@@ -76,7 +77,7 @@ class Sun{
     private int rechargeGiven;
     private static final String path = "/Images/sun.jpg";
     private int arrivalTime;
-    Sun(int arrivalTime, int source, int x, int y, AnchorPane MainPane){
+    Sun(int arrivalTime, int source, int x, int y, AnchorPane MainPane, LevelSceneController Lsc){
         this.arrivalTime = arrivalTime;
         this.source = source;
         image = new Image(getClass().getResourceAsStream((path)));
@@ -89,7 +90,9 @@ class Sun{
                 imageView.setVisible(false);
                 LevelSceneController.sunToken += 25;
                 String points = Integer.toString(LevelSceneController.sunToken);
-                LevelSceneController.sunPoints.setText(points);
+                TextField sunPoints = (TextField)Lsc.getSunPoints();
+                System.out.println(sunPoints);
+                sunPoints.setText(points);
             }
         });
         pane = new Pane(imageView);
@@ -117,6 +120,7 @@ class Sun{
     }
 
 }
+
 
 class Sunflower extends Plant{
     Sunflower(int sunCost, int recharge){
@@ -291,4 +295,3 @@ class Player{
         return name;
     }
 }
-

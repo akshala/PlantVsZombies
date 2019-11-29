@@ -71,20 +71,7 @@ public class LevelSceneController implements Initializable {
     private ProgressBar timer;
 
     @FXML
-    private ImageView sun;
-
-
-    @FXML
-    private ImageView sun1;
-
-    @FXML
-    private ImageView sun2;
-
-    @FXML
-    private ImageView sun3;
-
-    @FXML
-    static TextField sunPoints ;
+    private TextField sunPoints ;
 
     @FXML
     private ImageView LawnMower1;
@@ -161,15 +148,6 @@ public class LevelSceneController implements Initializable {
         }
     }
 
-    @FXML
-    void sunDisappear_onClick(MouseEvent event){
-        ImageView sunImage = (ImageView) event.getSource();
-        sunImage.setVisible(false);
-        sunToken += 25;
-        String points = Integer.toString(sunToken);
-        System.out.println(points);
-        sunPoints.setText(points);
-    }
 
     @FXML
     void plantDragDetected(MouseEvent event) {
@@ -305,8 +283,8 @@ public class LevelSceneController implements Initializable {
     private void InitializeSuns() {
         int sunNo = 7;
         Suns = new ArrayList<Sun>();
-        for (int i = 0; i < 7; i ++){
-            Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), 0, LevelSceneMainPane);
+        for (int i = 0; i < sunNo; i ++){
+            Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), 0, LevelSceneMainPane, this);
         }
     }
 
@@ -317,5 +295,9 @@ public class LevelSceneController implements Initializable {
         LawnMowers.add(new LawnMower(LawnMower3, 3));
         LawnMowers.add(new LawnMower(LawnMower4, 4));
         LawnMowers.add(new LawnMower(LawnMower5, 5));
+    }
+
+    public TextField getSunPoints(){
+        return sunPoints;
     }
 }
