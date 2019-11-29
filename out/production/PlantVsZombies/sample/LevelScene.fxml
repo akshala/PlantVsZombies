@@ -230,22 +230,22 @@
         <TextField layoutX="334.0" layoutY="9.0" prefHeight="25.0" prefWidth="63.0" text="Timer" />
         <GridPane gridLinesVisible="true" layoutX="36.0" layoutY="130.0">
             <children>
-                <ImageView id="PlantCard1" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true">
+                <ImageView id="PlantCard1" fx:id="PlantCard1" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../Images/Pea%20shooter.gif" />
                     </image>
                 </ImageView>
-                <ImageView id="PlantCard2" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                <ImageView id="PlantCard2" fx:id="PlantCard2" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                     <image>
                         <Image url="@../Images/Sunflower.png" />
                     </image>
                 </ImageView>
-                <ImageView id="PlantCard3" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                <ImageView id="PlantCard3" fx:id="PlantCard3" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                     <image>
                         <Image url="@../Images/Walnut.png" />
                     </image>
                 </ImageView>
-                <ImageView id="PlantCard4" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                <ImageView id="PlantCard4" fx:id="PlantCard4" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                     <image>
                         <Image url="@../Images/CherryBomb.png" />
                     </image>

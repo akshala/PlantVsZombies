@@ -234,14 +234,31 @@ public class LevelSceneController implements Initializable {
         }
         catch(NullPointerException e){
         }
+        is_ZombieDead();
+        zombie_reached_house();
+    }
 
+    void is_ZombieDead(){
         for(Zombie zombie: Zombies){
             if(zombie.getHealth() < 0){
                 Zombies.remove(zombie);
                 removeObject(zombie.imageView);
             }
         }
+    }
 
+    void zombie_reached_house(){
+        for(Zombie zombie: Zombies){
+            Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                ImageView zombie_image = zombie.imageView;
+//                System.out.println("Zombie " + zombie_image.getLocalToSceneTransform().getTx());
+                if(zombie_image.getLocalToSceneTransform().getTx() < 10){
+                    System.out.println("Game Over");
+                }
+            }));
+            t.setCycleCount(Animation.INDEFINITE);
+            t.play();
+        }
     }
 
     void collision_with_plant(Plant plant_object, Zombie zombie_object){
@@ -269,26 +286,14 @@ public class LevelSceneController implements Initializable {
             lawnmower_object.attack();
             Zombies.remove(zombie_object);
             removeObject(zombie);
-//            for(Zombie nextZombie: Zombies){
-//                Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-//                    ImageView nextZombie_image = nextZombie.imageView;
-//                    if(collisionDetection(lawnmower, nextZombie_image)){
-//                        Zombies.remove(nextZombie);
-//                        removeObject(nextZombie_image);
-//                    }
-//                }));
-//                t.setCycleCount(Animation.INDEFINITE);
-//                t.play();
-//            }
         }
     }
 
     boolean collisionDetection(ImageView first, ImageView second){
-        System.out.println("collision code");
         Bounds first_bound = first.localToScene(first.getBoundsInLocal());
         Bounds second_bound = second.localToScene(second.getBoundsInLocal());
-        System.out.println(first_bound.getCenterX());
-        System.out.println(second_bound.getCenterX());
+//        System.out.println(first_bound.getCenterX());
+//        System.out.println(second_bound.getCenterX());
         if(first_bound.intersects(second_bound)){
             System.out.println("Collision");
             return true;
