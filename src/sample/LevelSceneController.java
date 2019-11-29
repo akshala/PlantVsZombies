@@ -26,6 +26,7 @@ import javafx.util.Duration;
 import java.awt.*;
 import javafx.scene.control.TextField;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +44,7 @@ public class LevelSceneController implements Initializable {
     ArrayList<LawnMower> LawnMowers;
     Random rand;
     String plant_category;
+    ArrayList<PlantCard> PlantCards;
 
     @FXML
     private Pane PeaMainPane;
@@ -207,10 +209,27 @@ public class LevelSceneController implements Initializable {
         createLevel();
     }
 
+    public void set_plantCards(){
+        for(PlantCard plantCard: PlantCards){
+            Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                if(sunToken < plantCard.getSunCost()){
+//                    System.out.println(sunToken + " " + plantCard.getSunCost());
+                    plantCard.imageView.setVisible(false);
+                }
+                else{
+                    plantCard.imageView.setVisible(true);
+                }
+            }));
+            t.setCycleCount(Animation.INDEFINITE);
+            t.play();
+        }
+    }
+
     private void createLevel() {
         InitializeZombies();
         InitializeSuns();
         InitializeLawnMowers();
+        InitializePlantCards();
         for(LawnMower lawnmower: LawnMowers){
             for(Zombie zombie: Zombies){
                 Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
@@ -236,14 +255,19 @@ public class LevelSceneController implements Initializable {
         }
         is_ZombieDead();
         zombie_reached_house();
+        set_plantCards();
     }
 
     void is_ZombieDead(){
         for(Zombie zombie: Zombies){
-            if(zombie.getHealth() < 0){
-                Zombies.remove(zombie);
-                removeObject(zombie.imageView);
-            }
+            Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                if(zombie.getHealth() < 0) {
+                    Zombies.remove(zombie);
+                    removeObject(zombie.imageView);
+                }
+            }));
+            t.setCycleCount(Animation.INDEFINITE);
+            t.play();
         }
     }
 
@@ -350,6 +374,14 @@ public class LevelSceneController implements Initializable {
         LawnMowers.add(new LawnMower(LawnMower3, 3));
         LawnMowers.add(new LawnMower(LawnMower4, 4));
         LawnMowers.add(new LawnMower(LawnMower5, 5));
+    }
+
+    private void InitializePlantCards(){
+        PlantCards = new ArrayList<>();
+        PlantCards.add(new PeaShooterCard(PlantCard1));
+        PlantCards.add(new SunflowerCard(PlantCard2));
+        PlantCards.add(new WalnutBombCard(PlantCard3));
+        PlantCards.add(new CherryBombCard(PlantCard4));
     }
 
     public TextField getSunPoints(){
