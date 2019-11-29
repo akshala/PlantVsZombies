@@ -195,14 +195,6 @@ public class LevelSceneController implements Initializable {
         InitializeZombies();
         InitializeSuns();
         InitializeLawnMowers();
-//        for(LawnMower l: LawnMowers){
-//            System.out.println("lawnmower " + l.id);
-//        }
-//
-//        System.out.println("createLevel");
-//        for(Zombie z: Zombies){
-//            System.out.println("zombie");
-//        }
         for(LawnMower lawnmower: LawnMowers){
             for(Zombie zombie: Zombies){
 //                System.out.println("haha");
@@ -213,7 +205,6 @@ public class LevelSceneController implements Initializable {
                 t.play();
             }
         }
-//        System.out.println("level creation done");
     }
 
     void collision_with_lawnmower(LawnMower lawnmower_object, Zombie zombie_object){
@@ -258,21 +249,6 @@ public class LevelSceneController implements Initializable {
         imageview.setVisible(false);
         LevelSceneMainPane.getChildren().remove(imageview.getParent());
     }
-
-    void thread_collision(ImageView first, ImageView second){
-        Thread t = new Thread(){
-            public void run(){
-                collisionDetection(first, second);
-            }
-        };
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private void InitializeZombies() {
         String[] ZombieTypes = {"/Images/Zombieidle.gif", "/Images/ConeZombie.gif","/Images/flying zombie.gif", "/Images/Balloon Zombie.gif", "/Images/GiantZombie.gif", "/Images/FlagZombie.gif"};
