@@ -275,9 +275,18 @@ public class LevelSceneController implements Initializable {
         for(Zombie zombie: Zombies){
             Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
                 ImageView zombie_image = zombie.imageView;
-//                System.out.println("Zombie " + zombie_image.getLocalToSceneTransform().getTx());
-                if(zombie_image.getLocalToSceneTransform().getTx() < 10){
+                if(zombie_image.getLocalToSceneTransform().getTx() < 10 && zombie_image.isVisible()){
                     System.out.println("Game Over");
+
+                    Image image = new Image("Images/loser.jpeg");
+                    ImageView imageView = new ImageView();
+                    imageView.setImage(image);
+                    imageView.setFitWidth(300);
+                    imageView.setFitHeight(200);
+                    Pane pane = new Pane(imageView);
+                    pane.setLayoutY(100);
+                    pane.setLayoutX(200);
+                    LevelSceneMainPane.getChildren().add(pane);
                 }
             }));
             t.setCycleCount(Animation.INDEFINITE);
@@ -328,6 +337,7 @@ public class LevelSceneController implements Initializable {
     void removeObject(ImageView imageview){
         imageview.setVisible(false);
         LevelSceneMainPane.getChildren().remove(imageview.getParent());
+//        System.out.println(imageview.getX());
     }
 
     private void InitializeZombies() {
