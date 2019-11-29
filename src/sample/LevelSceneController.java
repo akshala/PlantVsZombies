@@ -89,6 +89,18 @@ public class LevelSceneController implements Initializable {
     @FXML
     private ImageView LawnMower5;
 
+    @FXML
+    private ImageView PlantCard1;
+
+    @FXML
+    private ImageView PlantCard2;
+
+    @FXML
+    private ImageView PlantCard3;
+
+    @FXML
+    private ImageView PlantCard4;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

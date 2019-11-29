@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -13,7 +12,7 @@ import javafx.util.Pair;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.awt.*;
+
 import java.util.ArrayList;
 
 abstract class Type{
@@ -47,6 +46,51 @@ abstract class Plant extends Type{
         return recharge;
     }
 
+}
+
+abstract class PlantCard{
+    ImageView imageView;
+    private final int sunCost;
+    private final int recharge;
+
+    PlantCard(int sunCost, int recharge, ImageView imageView){
+        this.sunCost = sunCost;
+        this.recharge = recharge;
+        this.imageView = imageView;
+    }
+
+    int getSunCost(){
+        return sunCost;
+    }
+    int getRecharge(){
+        return recharge;
+    }
+
+}
+
+class PeaShooterCard extends PlantCard{
+    PeaShooterCard(ImageView imageview){
+        super(100, 7, imageview);
+    }
+
+}
+
+class SunflowerCard extends PlantCard{
+    SunflowerCard(ImageView imageview){
+        super(50, 7, imageview);
+    }
+}
+
+class CherryBombCard extends PlantCard{
+    CherryBombCard(ImageView imageview){
+        super(150, 20, imageview);
+    }
+}
+
+class WalnutBombCard extends PlantCard{
+    WalnutBombCard(ImageView imageview){
+        super(50, 15, imageview);
+    }
 }
 
 final class Pea{
