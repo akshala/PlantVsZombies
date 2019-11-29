@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -189,7 +192,12 @@ class Zombie extends Type{
     }
 
     void attack(){
-
+        T.stop();
+        Timeline t = new Timeline( new KeyFrame( Duration.seconds(5),(event) -> {
+        }));
+        t.setCycleCount(0);
+        t.play();
+        T.play();
     }
 
     int getHealth(){

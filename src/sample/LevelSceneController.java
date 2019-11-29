@@ -146,7 +146,6 @@ public class LevelSceneController implements Initializable {
                 ImageView pea = new ImageView(peaImage);
                 pea.setFitHeight(10);
                 pea.setFitWidth(10);
-                //            Scene s = cell.getScene();
                 TranslateTransition T = new TranslateTransition();
                 T.setNode(pea);
                 T.setToX(500);
@@ -155,11 +154,16 @@ public class LevelSceneController implements Initializable {
                 T.setCycleCount(500);
                 T.play();
                 Pane p = new Pane(pea);
-                System.out.println(cell.getLocalToSceneTransform().getTx());
-                System.out.println(cell.getLocalToSceneTransform().getTy());
                 p.setLayoutX(cell.getLocalToSceneTransform().getTx() + 20);
                 p.setLayoutY(cell.getLocalToSceneTransform().getTy() + 20);
                 PeaMainPane.getChildren().add(p);
+                for(Zombie zombie: Zombies){
+                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(e) -> {
+                        collision_with_pea(pea, zombie);
+                    }));
+                    t.setCycleCount(Animation.INDEFINITE);
+                    t.play();
+                }
             }
         }
     }
@@ -197,13 +201,52 @@ public class LevelSceneController implements Initializable {
         InitializeLawnMowers();
         for(LawnMower lawnmower: LawnMowers){
             for(Zombie zombie: Zombies){
-//                System.out.println("haha");
-                Timeline t = new Timeline( new KeyFrame( Duration.seconds(1),(event) -> {
+                Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
                     collision_with_lawnmower(lawnmower, zombie);
                 }));
                 t.setCycleCount(Animation.INDEFINITE);
                 t.play();
             }
+        }
+
+        try{
+            for(Plant plant: Plants){
+                for(Zombie zombie: Zombies){
+                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                        collision_with_plant(plant, zombie);
+                    }));
+                    t.setCycleCount(Animation.INDEFINITE);
+                    t.play();
+                }
+            }
+        }
+        catch(NullPointerException e){
+        }
+
+        for(Zombie zombie: Zombies){
+            if(zombie.getHealth() < 0){
+                Zombies.remove(zombie);
+                removeObject(zombie.imageView);
+            }
+        }
+
+    }
+
+    void collision_with_plant(Plant plant_object, Zombie zombie_object){
+        ImageView plant = plant_object.imageView;
+        ImageView zombie = zombie_object.imageView;
+        if(collisionDetection(plant, zombie)){
+            zombie_object.attack();
+            Plants.remove(plant_object);
+            removeObject(plant);
+        }
+    }
+
+    void collision_with_pea(ImageView pea, Zombie zombie_object){
+        ImageView zombie = zombie_object.imageView;
+        if(collisionDetection(pea, zombie)){
+            zombie_object.setHealth(zombie_object.getHealth() - 2);
+            removeObject(pea);
         }
     }
 
@@ -211,24 +254,20 @@ public class LevelSceneController implements Initializable {
         ImageView lawnmower = lawnmower_object.imageView;
         ImageView zombie = zombie_object.imageView;
         if(collisionDetection(lawnmower, zombie)){
-            TranslateTransition LawnTrans = new TranslateTransition();
-            LawnTrans.setNode(lawnmower);
-            LawnTrans.setToX(3000);
-            LawnTrans.setDuration(Duration.seconds(10));
-            LawnTrans.play();
+            lawnmower_object.attack();
             Zombies.remove(zombie_object);
             removeObject(zombie);
-            for(Zombie nextZombie: Zombies){
-                Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-                    ImageView nextZombie_image = nextZombie.imageView;
-                    if(collisionDetection(lawnmower, nextZombie_image)){
-                        Zombies.remove(nextZombie);
-                        removeObject(nextZombie_image);
-                    }
-                }));
-                t.setCycleCount(Animation.INDEFINITE);
-                t.play();
-            }
+//            for(Zombie nextZombie: Zombies){
+//                Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+//                    ImageView nextZombie_image = nextZombie.imageView;
+//                    if(collisionDetection(lawnmower, nextZombie_image)){
+//                        Zombies.remove(nextZombie);
+//                        removeObject(nextZombie_image);
+//                    }
+//                }));
+//                t.setCycleCount(Animation.INDEFINITE);
+//                t.play();
+//            }
         }
     }
 
