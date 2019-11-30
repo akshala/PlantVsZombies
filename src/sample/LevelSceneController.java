@@ -308,12 +308,13 @@ public class LevelSceneController implements Initializable, Serializable {
                     Parent new_parent = null;
                     try {
                         new_parent = FXMLLoader.load(getClass().getResource("GameLost.fxml"));
+                        Scene new_scene = new Scene(new_parent);
+                        Stage old_stage = (Stage) menu.getScene().getWindow();
+                        old_stage.setScene(new_scene);
+
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    Scene new_scene = new Scene(new_parent);
-                    Stage old_stage = (Stage) menu.getScene().getWindow();
-                    old_stage.setScene(new_scene);
 
 //                    Image image = new Image(getClass().getResourceAsStream("/Images/loser.jpeg"));
 //                    ImageView imageView = new ImageView();
@@ -346,15 +347,23 @@ public class LevelSceneController implements Initializable, Serializable {
 //                System.out.println("Timeline stopped");
 //                System.out.println("Game won");
                 lambdaContext.t.stop();
-                Parent new_parent = null;
                 try {
-                    new_parent = FXMLLoader.load(getClass().getResource("GameWon.fxml"));
+                    Parent new_parent = FXMLLoader.load(getClass().getResource("GameWon.fxml"));
+                    Scene new_scene = new Scene(new_parent);
+                    Stage old_stage = (Stage) menu.getScene().getWindow();
+                    old_stage.setScene(new_scene);
+
+//                    FXMLLoader GameWonLoader = new FXMLLoader(getClass().getResource("LevelScene.fxml"));
+//                    AnchorPane LSParent = GameWonLoader.load();
+//                    GameWonController controller = GameWonLoader.getController();
+//                    controller.setCurr_level(LevelNo);
+//                    Scene LScene = new Scene(LSParent);
+//                    Stage oldPlayer_stage = (Stage) LevelSceneMainPane.getScene().getWindow();
+//                    oldPlayer_stage.setScene(LScene);
+
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                Scene new_scene = new Scene(new_parent);
-                Stage old_stage = (Stage) menu.getScene().getWindow();
-                old_stage.setScene(new_scene);
 
 //                Image image = new Image(getClass().getResourceAsStream("/Images/win.jpg"));
 //                ImageView imageView = new ImageView();

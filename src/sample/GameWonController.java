@@ -17,6 +17,8 @@ public class GameWonController {
     @FXML
     private AnchorPane GameWinScreen;
 
+    String curr_level;
+
     public void changeScene_mainMenu(ActionEvent event) throws IOException {
         Parent new_parent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene new_scene = new Scene(new_parent);
@@ -26,14 +28,17 @@ public class GameWonController {
 
     @FXML
     public void changeScene_levelScene(javafx.event.ActionEvent actionEvent) throws IOException {
-        String Level = ((Node)actionEvent.getSource()).getId();
-        
+        String Level = curr_level;
         FXMLLoader LevelSceneLoader= new FXMLLoader(getClass().getResource("LevelScene.fxml"));
-        AnchorPane LSParent = LevelSceneLoader.load();
+        AnchorPane GameWinScreen = LevelSceneLoader.load();
         LevelSceneController controller = LevelSceneLoader.getController();
         controller.setSceneNumber(Level);
-        Scene LScene = new Scene(LSParent);
+        Scene LScene = new Scene(GameWinScreen);
         Stage oldPlayer_stage = (Stage) GameWinScreen.getScene().getWindow();
         oldPlayer_stage.setScene(LScene);
+    }
+
+    void setCurr_level(String level){
+        curr_level = level;
     }
 }
