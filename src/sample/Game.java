@@ -1,3 +1,4 @@
+
 package sample;
 
 import javafx.animation.Animation;
@@ -448,13 +449,17 @@ class Game implements Serializable {
     ArrayList<LawnMowerRegenerator> lawnMowerRegenerators;
     Player player;
     String levelNo;
+    double progress_time;
+    int sunToken;
 
-    public Game(ArrayList<ZombieRegenerator> zombieRegenerators, ArrayList<PlantRegenerator> plantRegenerators, ArrayList<LawnMowerRegenerator> lawnMowerRegenerators, Player player, String levelNo) {
+    public Game(int sunToken, double progress_time, ArrayList<ZombieRegenerator> zombieRegenerators, ArrayList<PlantRegenerator> plantRegenerators, ArrayList<LawnMowerRegenerator> lawnMowerRegenerators, Player player, String levelNo) {
         this.zombieRegenerators = zombieRegenerators;
         this.plantRegenerators = plantRegenerators;
         this.lawnMowerRegenerators = lawnMowerRegenerators;
         this.levelNo = levelNo;
         this.player = player;
+        this.progress_time = progress_time;
+        this.sunToken = sunToken;
 
     }
 
@@ -536,3 +541,4 @@ class LawnMowerRegenerator extends Regenerators{
         this.id = id;
     }
 }
+
