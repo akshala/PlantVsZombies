@@ -50,6 +50,13 @@ public class MainMenuController {
         old_stage.setScene(new_scene);
     }
 
+    public void changeScene_leaderboard(javafx.event.ActionEvent actionEvent) throws IOException {
+        Parent new_parent = FXMLLoader.load(getClass().getResource("leaderboard.fxml"));
+        Scene new_scene = new Scene(new_parent);
+        Stage old_stage = (Stage) exit.getScene().getWindow();
+        old_stage.setScene(new_scene);
+    }
+
     public void changeScene_SerializedlevelScene(javafx.event.ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         Game savedGame = deserialize();
         FXMLLoader LevelSceneLoader= new FXMLLoader(getClass().getResource("LevelScene.fxml"));
@@ -72,5 +79,8 @@ public class MainMenuController {
             in.close();
         }
         return savedGame;
+    }
+    public void exit(javafx.event.ActionEvent actionEvent) throws IOException{
+        System.exit(1);
     }
 }

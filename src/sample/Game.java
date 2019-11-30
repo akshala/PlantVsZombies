@@ -83,6 +83,7 @@ class SunflowerCard extends PlantCard{
 class CherryBombCard extends PlantCard{
     CherryBombCard(ImageView imageview){
         super(150, 20, imageview);
+
     }
 }
 
@@ -165,6 +166,7 @@ class PeaShooter extends Plant{
 
     public PeaShooter(String imagePath, ImageView cell, LevelSceneController levelSceneController) {
         super(imagePath, 100, 7, cell);
+        health = 10;
         System.out.println("Created Pea Shooter");
         Timeline t = new Timeline(new KeyFrame(Duration.seconds(3),(event) -> {
             if(active == true)
@@ -189,6 +191,7 @@ class Sunflower extends Plant{
 
     public Sunflower(String path, ImageView imageView, LevelSceneController levelSceneController, double sunX, double sunY, boolean saved) {
         super(path,50, 7, imageView);
+        health = 10;
         x = imageView.getLocalToSceneTransform().getTx() + 20;
         y = imageView.getLocalToSceneTransform().getTy() + 20;
         if(saved == false) {
@@ -217,6 +220,7 @@ class CherryBomb extends Plant{
 
     public CherryBomb(String path, ImageView imageView, LevelSceneController levelSceneController) {
         super(path, 150, 20, imageView);
+        health = 2;
     }
 
     void attack(){
@@ -228,6 +232,7 @@ class WalnutBomb extends Plant{
 
     public WalnutBomb(String path, ImageView imageView, LevelSceneController levelSceneController) {
         super(path,50, 15, imageView);
+        health = 20;
     }
 
     void attack(){
@@ -351,8 +356,12 @@ class Zombie extends Type{
         int count = 0;
         T.stop();
         Timeline t = new Timeline( new KeyFrame( Duration.seconds(5),(event) -> {
-            controller.removeObject(plant.imageView);
+            while(plant.health > 0) {
+                plant.health -= 2;
 //            plant.imageView.setVisible(false);
+            }
+            plant.setActiveFalse();
+            controller.removeObject(plant.imageView);
         }));
         t.setCycleCount(1);
         t.play();
@@ -462,6 +471,7 @@ class Game implements Serializable {
         this.sunToken = sunToken;
 
     }
+
 
     int getTime(){
         return time;
