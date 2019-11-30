@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -13,12 +14,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-abstract class Type{
+abstract class Type implements Serializable{
+    boolean active;
     protected int health;         //Check if the initial health of all plants is same. To initialize in constructor.
     private int defense;        //Check if this need to be made final
     private Pair<Integer, Integer> position;
+
+    public Type() {
+        active = true;
+    }
 
     Pair<Integer, Integer> getPosition(){
         return position;
@@ -26,18 +37,29 @@ abstract class Type{
     void setPosition(Pair<Integer, Integer> position){
         this.position = position;
     }
+    public void setActiveFalse(){
+        active = false;
+    }
+    public boolean getActiveStatus(){
+        return active;
+    }
     abstract void attack();
 }
 
 abstract class Plant extends Type{
+
+    String imagePath;
     ImageView imageView;
     private final int sunCost;
     private final int recharge;
 
-    Plant(int sunCost, int recharge, ImageView imageView){
+    Plant(String path, int sunCost, int recharge, ImageView imageView){
+        super();
+        this.imagePath = path;
         this.sunCost = sunCost;
         this.recharge = recharge;
         this.imageView = imageView;
+        active = true;
     }
     int getSunCost(){
         return sunCost;
@@ -65,7 +87,6 @@ abstract class PlantCard{
     int getRecharge(){
         return recharge;
     }
-
 }
 
 class PeaShooterCard extends PlantCard{
@@ -94,7 +115,33 @@ class WalnutBombCard extends PlantCard{
 }
 
 final class Pea{
+    public boolean active;
     private int attackValue;
+    Image image;
+    ImageView imageView;
+    TranslateTransition T;
+
+    Pea(ImageView cell, int attackValue, LevelSceneController levelSceneController){
+        active = true;
+        image = new Image((getClass().getResourceAsStream("/Images/pea.png")));
+        imageView = new ImageView(image);
+        imageView.setFitHeight(10);
+        imageView.setFitWidth(10);
+        //            Scene s = cell.getScene();
+        T = new TranslateTransition();
+        T.setNode(imageView);
+        T.setToX(500);
+
+        T.setDuration(Duration.seconds(3));
+        T.setCycleCount(1);
+        T.play();
+        Pane p = new Pane(imageView);
+        System.out.println(cell.getLocalToSceneTransform().getTx());
+        System.out.println(cell.getLocalToSceneTransform().getTy());
+        p.setLayoutX(cell.getLocalToSceneTransform().getTx() + 20);
+        p.setLayoutY(cell.getLocalToSceneTransform().getTy() + 20);
+        (levelSceneController.getPeaPlane()).getChildren().add(p);
+    }
 
     int getAttackValue(){
         return attackValue;
@@ -107,17 +154,75 @@ final class Pea{
 
 
 class PeaShooter extends Plant{
-    PeaShooter(ImageView imageview){
-        super(100, 7, imageview);
-    }
+
     private Pea pea;
 
+    public PeaShooter(String imagePath, ImageView cell, LevelSceneController levelSceneController) {
+        super(imagePath, 100, 7, cell);
+        System.out.println("Created Pea Shooter");
+        Timeline t = new Timeline(new KeyFrame(Duration.seconds(3),(event) -> {
+            if(active == true)
+                pea = new Pea(cell, 10, levelSceneController);
+        }));
+        t.setCycleCount(Animation.INDEFINITE);
+        t.play();
+
+    }
+    Pea getPea(){
+        return pea;
+    }
     void attack(){
-        pea = new Pea();
     }
 }
 
+
+class Sunflower extends Plant{
+    private Sun sun;
+    double x;
+    double y;
+
+    public Sunflower(String path, ImageView imageView, LevelSceneController levelSceneController) {
+        super(path,50, 7, imageView);
+        x = imageView.getLocalToSceneTransform().getTx() + 20;
+        y = imageView.getLocalToSceneTransform().getTy() + 20;
+        Timeline t = new Timeline(new KeyFrame(Duration.seconds(10),(event) -> {
+            if(active == true)
+                sun = new Sun(10, 2, x, y, levelSceneController.getMainPane(), levelSceneController);;
+        }));
+        t.setCycleCount(Animation.INDEFINITE);
+        t.play();
+    }
+
+    void attack(){
+
+    }
+}
+
+class CherryBomb extends Plant{
+
+    public CherryBomb(String path, ImageView imageView, LevelSceneController levelSceneController) {
+        super(path, 150, 20, imageView);
+    }
+
+    void attack(){
+
+    }
+}
+
+class WalnutBomb extends Plant{
+
+    public WalnutBomb(String path, ImageView imageView, LevelSceneController levelSceneController) {
+        super(path,50, 15, imageView);
+    }
+
+    void attack(){
+
+    }
+}
+
+
 class Sun{
+    boolean active;
     Image image;
     ImageView imageView;
     Pane pane;
@@ -126,7 +231,8 @@ class Sun{
     private int rechargeGiven;
     private static final String path = "/Images/sun.jpg";
     private int arrivalTime;
-    Sun(int arrivalTime, int source, int x, int y, AnchorPane MainPane, LevelSceneController Lsc){
+    Sun(int arrivalTime, int source, double x, double y, AnchorPane MainPane, LevelSceneController Lsc){
+        active = true;
         this.arrivalTime = arrivalTime;
         this.source = source;
         image = new Image(getClass().getResourceAsStream((path)));
@@ -136,12 +242,15 @@ class Sun{
         imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {                         //Decide where to put sunToken and sunPoints in game or levelscene controller.
-                imageView.setVisible(false);
-                LevelSceneController.sunToken += 25;
-                String points = Integer.toString(LevelSceneController.sunToken);
-                TextField sunPoints = (TextField)Lsc.getSunPoints();
-                System.out.println(sunPoints);
-                sunPoints.setText(points);
+                if(active == true) {
+                    imageView.setVisible(false);
+                    active = false;
+                    LevelSceneController.sunToken += 25;
+                    String points = Integer.toString(LevelSceneController.sunToken);
+                    TextField sunPoints = (TextField) Lsc.getSunPoints();
+                    System.out.println(sunPoints);
+                    sunPoints.setText(points);
+                }
             }
         });
         pane = new Pane(imageView);
@@ -158,7 +267,9 @@ class Sun{
             imageView.setVisible(true);
             T.play();
         }
+
     }
+
 
     int getRechargeGiven(){
         return rechargeGiven;
@@ -168,51 +279,27 @@ class Sun{
         this.rechargeGiven = rechargeGiven;
     }
 
-}
 
-
-class Sunflower extends Plant{
-    Sunflower(ImageView imageview){
-        super(50, 7, imageview);
-    }
-    Sun sun;
-
-    void attack(){
-//        sun = new Sun();
-    }
-}
-
-class CherryBomb extends Plant{
-    CherryBomb(ImageView imageview){
-        super(150, 20, imageview);
-    }
-
-    void attack(){
-
-    }
-}
-
-class WalnutBomb extends Plant{
-    WalnutBomb(ImageView imageview){
-        super(50, 15, imageview);
-    }
-
-    void attack(){
-
-    }
 }
 
 class Zombie extends Type{
+    String imagePath;
     ImageView imageView;
     Image image;
     Pane pane;
     TranslateTransition T;
+    int row;
+    double x;
     private final int attack;
     private int arrivalTime;
+    LevelSceneController levelSceneController;
 
 
-    Zombie(String path, int health, int attack, int arrivalTime, int row, AnchorPane MainPane){
+    Zombie(String path, int health, int attack, int arrivalTime, int row, double x, AnchorPane MainPane){
+        super();
         double[] ycoord = {54.5, 119.5, 184.5, 249.5, 314.5};
+        this.row = row;
+        this.imagePath = path;
         image = new Image((getClass().getResourceAsStream(path)));
         imageView = new ImageView();
         imageView.setImage(image);
@@ -220,26 +307,35 @@ class Zombie extends Type{
         imageView.setFitHeight(60);
 
         T = new TranslateTransition();
-        T.setNode(imageView);
+
+        pane = new Pane(imageView);
+        pane.setLayoutY(ycoord[row]);
+        pane.setLayoutX(x);
+
+        T.setNode(pane);
         T.setToX(-700);
         T.setDuration(Duration.seconds(40));
         T.setDelay(Duration.seconds(arrivalTime));
         T.play();
-        pane = new Pane(imageView);
-        pane.setLayoutY(ycoord[row]);
-        pane.setLayoutX(700);
+        System.out.println("y = "+ycoord[row]);
+        System.out.println("x = "+ x);
         MainPane.getChildren().add(pane);
 
         this.arrivalTime = arrivalTime;
         this.health = health;
         this.attack = attack;
     }
-
     void attack(){
+
+    }
+    void attack(Plant plant, LevelSceneController controller){
+        int count = 0;
         T.stop();
         Timeline t = new Timeline( new KeyFrame( Duration.seconds(5),(event) -> {
+            controller.removeObject(plant.imageView);
+//            plant.imageView.setVisible(false);
         }));
-        t.setCycleCount(0);
+        t.setCycleCount(1);
         t.play();
         T.play();
     }
@@ -314,22 +410,29 @@ class Level{
 
 }
 
-class Game{
-    Level level;
-    int time;           //Ask it's use
+class Game implements Serializable {
+    int time;
 
-    Game(Level level, int time){
-        this.level = level;
-        this.time = time;
+
+    ArrayList<ZombieRegenerator> zombieRegenerators;
+    ArrayList<PlantRegenerator> plantRegenerators;
+    ArrayList<LawnMowerRegenerator> lawnMowerRegenerators;
+    Player player;
+    String levelNo;
+
+    public Game(ArrayList<ZombieRegenerator> zombieRegenerators, ArrayList<PlantRegenerator> plantRegenerators, ArrayList<LawnMowerRegenerator> lawnMowerRegenerators, Player player, String levelNo) {
+        this.zombieRegenerators = zombieRegenerators;
+        this.plantRegenerators = plantRegenerators;
+        this.lawnMowerRegenerators = lawnMowerRegenerators;
+        this.levelNo = levelNo;
+        this.player = player;
+
     }
 
     int getTime(){
         return time;
     }
 
-    Level getLevel(){
-        return level;
-    }
 
     void setTime(int time){
         this.time = time;
@@ -341,11 +444,58 @@ class Game{
 
 }
 
-class Player{
+class Player implements Serializable{
     private String name;
     Game game;
+    Player(String name){
+        this.name = name;
+    }
+
+//    public void serialize(LevelSceneController levelSceneController) throws IOException{
+//        ObjectOutputStream out = null;
+//        try {
+//            out = new ObjectOutputStream(new FileOutputStream("out.txt"));
+//            out.writeObject(levelSceneController);
+//        }
+//        finally {
+//            out.close();
+//        }
+//
+//    }
 
     String getName(){
         return name;
+    }
+}
+
+class Regenerators implements Serializable{
+    String imagePath;
+    double x;
+    double y;
+    Regenerators(double x, double y, String imagePath){
+        this.imagePath = imagePath;
+        this.x = x;
+        this.y = y;
+    }
+}
+class ZombieRegenerator extends Regenerators{
+    float health;
+    int attack;
+    int row;
+    ZombieRegenerator(double x, double y, String imagePath, int attack, float health, int row){
+        super(x, y, imagePath);
+        this.health = health;
+        this.attack = attack;
+        this.row = row;
+    }
+}
+class PlantRegenerator extends Regenerators{
+    PlantRegenerator(double x, double y, String imagePath){
+        super(x, y, imagePath);
+    }
+}
+class LawnMowerRegenerator extends Regenerators{
+    LawnMowerRegenerator(double x, double y, String imagePath){
+        super(x, y, imagePath);
     }
 }

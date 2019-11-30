@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.OldPlayerMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.NewPlayerMenuController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="17.782623291015625" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0">
          <image>
@@ -23,7 +23,7 @@
                </font>
             </TextField>
             <TextField editable="false" opacity="0.8" prefHeight="25.0" prefWidth="10.0" text="Enter Player Name :-" />
-            <TextField />
+            <TextField fx:id="PlayerName" />
             <Button fx:id="start" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeScene_levelSelect" prefHeight="25.0" prefWidth="278.0" text="START" underline="true" />
             <Button fx:id="back_mainMenu" mnemonicParsing="false" onAction="#changeScene_mainMenu" prefHeight="25.0" prefWidth="270.0" text="BACK TO MAIN MENU" underline="true" />
             <TextField opacity="0.0" />

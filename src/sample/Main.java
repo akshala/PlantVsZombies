@@ -11,6 +11,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
+
+class App implements Serializable{
+    ArrayList<Player> Players = new ArrayList<Player>();
+}
+
 public class Main extends Application {
 
     @FXML

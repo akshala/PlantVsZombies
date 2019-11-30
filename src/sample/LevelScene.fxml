@@ -175,8 +175,8 @@
             <children>
                 <MenuButton fx:id="menu" mnemonicParsing="false" text="Menu">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Save and Continue" />
-                        <MenuItem fx:id="save_mainMenu" mnemonicParsing="false" onAction="#changeScene_mainMenu" text="Save and go to Main Menu" />
+                        <MenuItem fx:id="SaveNContinue" mnemonicParsing="false" onAction="#SaveAndContinue" text="Save and Continue" />
+                        <MenuItem fx:id="save_mainMenu" mnemonicParsing="false" onAction="#Save_changeScene_mainMenu" text="Save and go to Main Menu" />
                         <MenuItem fx:id="back_mainMenu" mnemonicParsing="false" onAction="#changeScene_mainMenu" text="Exit Game" />
                     </items>
                 </MenuButton>

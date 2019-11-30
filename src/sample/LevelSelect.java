@@ -16,6 +16,7 @@ public class LevelSelect {
 
     @FXML
     private AnchorPane LevelSelectMain;
+    private Player player;
 
     @FXML
     public void changeScene_levelScene(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -24,8 +25,13 @@ public class LevelSelect {
         AnchorPane LSParent = LevelSceneLoader.load();
         LevelSceneController controller = LevelSceneLoader.getController();
         controller.setSceneNumber(Level);
+        controller.setPlayer(player);
         Scene LScene = new Scene(LSParent);
         Stage oldPlayer_stage = (Stage) LevelSelectMain.getScene().getWindow();
         oldPlayer_stage.setScene(LScene);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
