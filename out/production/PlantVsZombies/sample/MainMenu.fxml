@@ -19,7 +19,7 @@
         <Button fx:id="startGame_newPlayer" mnemonicParsing="false" onAction="#changeScene_SerializedlevelScene" opacity="0.77" prefHeight="25.0" prefWidth="198.0" text="Load Game" />
             <Button fx:id="chooseLevel" mnemonicParsing="false" onAction="#changeScene_levelSelect" opacity="0.77" prefHeight="26.0" prefWidth="196.0" text="Choose Level" />
         <Button fx:id="leaderboard" mnemonicParsing="false" opacity="0.77" prefHeight="25.0" prefWidth="203.0" text="Leaderboard" />
-        <Button fx:id="help" mnemonicParsing="false" opacity="0.77" prefHeight="25.0" prefWidth="204.0" text="Help" />
+        <Button fx:id="help" mnemonicParsing="false" onAction="#changeScene_help" opacity="0.77" prefHeight="25.0" prefWidth="204.0" text="Help" />
         <Button fx:id="exit" mnemonicParsing="false" opacity="0.77" prefHeight="25.0" prefWidth="200.0" text="Exit Game" />
       </children>
     </VBox>

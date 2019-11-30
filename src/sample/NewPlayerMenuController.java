@@ -34,11 +34,11 @@ public class NewPlayerMenuController {
     public void changeScene_levelSelect(javafx.event.ActionEvent actionEvent) throws IOException {
         Player player = new Player(PlayerName.getText());
 //        Player player = new Player(PlayerName.getAccessibleText());
-        FXMLLoader LevelSelectLoader= new FXMLLoader(getClass().getResource("LevelSelect.fxml"));
+        FXMLLoader LevelSelectLoader= new FXMLLoader(getClass().getResource("levelSelect.fxml"));
         AnchorPane LSParent = LevelSelectLoader.load();
         LevelSelect controller = LevelSelectLoader.getController();
-        Scene new_scene = new Scene(LSParent);
         controller.setPlayer(player);
+        Scene new_scene = new Scene(LSParent);
         Stage old_stage = (Stage) start.getScene().getWindow();
         old_stage.setScene(new_scene);
 

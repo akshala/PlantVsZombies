@@ -244,24 +244,25 @@ public class LevelSceneController implements Initializable, Serializable {
 
         if(!saved) {
             InitializeZombies();
-            InitializeSuns();
             InitializeLawnMowers();
+            System.out.println(LawnMowers.get(0).imageView);
             Plants = new ArrayList<Plant>();
         }
         set_progressBar();
-        InitializePlantCards() ;
+        InitializeSuns();
+        InitializePlantCards();
 
-        for(LawnMower lawnmower: LawnMowers){
-            for(Zombie zombie: Zombies){
-                if(zombie.getActiveStatus()){
-                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-                        collision_with_lawnmower(lawnmower, zombie);
-                    }));
-                    t.setCycleCount(Animation.INDEFINITE);
-                    t.play();
-                }
-            }
-        }
+//        for(LawnMower lawnmower: LawnMowers){
+//            for(Zombie zombie: Zombies){
+//                if(zombie.getActiveStatus()){
+//                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+//                        collision_with_lawnmower(lawnmower, zombie);
+//                    }));
+//                    t.setCycleCount(Animation.INDEFINITE);
+//                    t.play();
+//                }
+//            }
+//        }
 
         try{
             Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
@@ -493,11 +494,13 @@ public class LevelSceneController implements Initializable, Serializable {
 
     private void InitializeLawnMowers() {
         LawnMowers = new ArrayList<LawnMower>();
-        LawnMowers.add(new LawnMower(LawnMower1, 1));
-        LawnMowers.add(new LawnMower(LawnMower2, 2));
-        LawnMowers.add(new LawnMower(LawnMower3, 3));
-        LawnMowers.add(new LawnMower(LawnMower4, 4));
-        LawnMowers.add(new LawnMower(LawnMower5, 5));
+        String path = "Images/lawnmower.jpg";
+        LawnMowers.add(new LawnMower(1, LevelSceneMainPane, path));
+        LawnMowers.add(new LawnMower(2, LevelSceneMainPane, path));
+        LawnMowers.add(new LawnMower(3, LevelSceneMainPane, path));
+        LawnMowers.add(new LawnMower(4, LevelSceneMainPane, path));
+        LawnMowers.add(new LawnMower(5, LevelSceneMainPane, path));
+        System.out.println(LawnMowers.get(0));
     }
 
     private void InitializePlantCards(){
@@ -567,7 +570,8 @@ public class LevelSceneController implements Initializable, Serializable {
                 double x = lawnMower.imageView.getParent().getLayoutX();
                 double y = lawnMower.imageView.getParent().getLayoutY();
                 String imagePath = lawnMower.imageView.getImage().getUrl();
-                LawnMowerRegenerator lawnMowerGen = new LawnMowerRegenerator(x, y, imagePath);
+                int id = lawnMower.id;
+                LawnMowerRegenerator lawnMowerGen = new LawnMowerRegenerator(x, y, imagePath, id);
                 lawnMowerRegenerators.add(lawnMowerGen);
             }
         }
@@ -613,7 +617,19 @@ public class LevelSceneController implements Initializable, Serializable {
             Zombie zomb = new Zombie(path, (int) zombGen.health, zombGen.attack, 0, zombGen.row, x, LevelSceneMainPane);
             Zombies.add(zomb);
         }
-        //Loading Zombies
+        LawnMowers = new ArrayList<LawnMower>();
+        double[] ycoord = {54.5, 119.5, 184.5, 249.5, 314.5};
+
+        for(LawnMowerRegenerator lawnmowerGen : lawnMowerRegenerators){
+            String path = lawnmowerGen.imagePath;
+            double x_lawn = lawnmowerGen.x;
+            double y_lawn = lawnmowerGen.y;
+            int id = lawnmowerGen.id;
+
+            LawnMower lawnmower = new LawnMower(id, LevelSceneMainPane, "Images/lawnmower.jpg");
+            LawnMowers.add(lawnmower);
+        }
+        //Loading Plants
         Plants = new ArrayList<Plant>();
 //        System.out.println(plantRegenerators);
         for(PlantRegenerator plantGen : plantRegenerators){

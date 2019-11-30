@@ -187,45 +187,6 @@
                 <TextField fx:id="sunPoints" />
             </content>
         </TitledPane>
-        <GridPane gridLinesVisible="true" layoutX="86.0" layoutY="55.0" prefHeight="325.0" prefWidth="30.65216064453125">
-            <children>
-                <ImageView fx:id="LawnMower1" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../Images/lawnmower.jpg" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="LawnMower2" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
-                    <image>
-                        <Image url="@../Images/lawnmower.jpg" />
-                    </image>
-                </ImageView>
-                <ImageView id="PlantCard3" fx:id="LawnMower3" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                    <image>
-                        <Image url="@../Images/lawnmower.jpg" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="LawnMower4" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                    <image>
-                        <Image url="@../Images/lawnmower.jpg" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="LawnMower5" fitHeight="40.0" fitWidth="50.0" onDragDetected="#plantDragDetected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4">
-                    <image>
-                        <Image url="@../Images/lawnmower.jpg" />
-                    </image>
-                </ImageView>
-            </children>
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-        </GridPane>
         <ProgressBar fx:id="timer" layoutX="396.0" layoutY="9.0" prefHeight="25.0" prefWidth="86.0" progress="0.0" />
         <TextField layoutX="334.0" layoutY="9.0" prefHeight="25.0" prefWidth="63.0" text="Timer" />
         <GridPane gridLinesVisible="true" layoutX="36.0" layoutY="130.0">

@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -16,6 +17,9 @@ public class GameLostController {
     private AnchorPane LoseScreen;
 
     String curr_level;
+
+    @FXML
+    private Button replay;
 
     public void changeScene_mainMenu(ActionEvent event) throws IOException {
         Parent new_parent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
@@ -32,7 +36,7 @@ public class GameLostController {
         LevelSceneController controller = LevelSceneLoader.getController();
         controller.setSceneNumber(Level);
         Scene LScene = new Scene(GameWinScreen);
-        Stage oldPlayer_stage = (Stage) GameWinScreen.getScene().getWindow();
+        Stage oldPlayer_stage = (Stage) replay.getScene().getWindow();
         oldPlayer_stage.setScene(LScene);
     }
 
