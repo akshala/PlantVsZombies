@@ -245,24 +245,24 @@ public class LevelSceneController implements Initializable, Serializable {
         if(!saved) {
             InitializeZombies();
             InitializeLawnMowers();
-            System.out.println(LawnMowers.get(0).imageView);
+//            System.out.println(LawnMowers.get(0).imageView);
             Plants = new ArrayList<Plant>();
         }
         set_progressBar();
         InitializeSuns();
         InitializePlantCards();
 
-//        for(LawnMower lawnmower: LawnMowers){
-//            for(Zombie zombie: Zombies){
-//                if(zombie.getActiveStatus()){
-//                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-//                        collision_with_lawnmower(lawnmower, zombie);
-//                    }));
-//                    t.setCycleCount(Animation.INDEFINITE);
-//                    t.play();
-//                }
-//            }
-//        }
+        for(LawnMower lawnmower: LawnMowers){
+            for(Zombie zombie: Zombies){
+                if(zombie.getActiveStatus()){
+                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                        collision_with_lawnmower(lawnmower, zombie);
+                    }));
+                    t.setCycleCount(Animation.INDEFINITE);
+                    t.play();
+                }
+            }
+        }
 
         try{
             Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
@@ -494,7 +494,7 @@ public class LevelSceneController implements Initializable, Serializable {
 
     private void InitializeLawnMowers() {
         LawnMowers = new ArrayList<LawnMower>();
-        String path = "Images/lawnmower.jpg";
+        String path = "/Images/lawnmower.jpg";
         LawnMowers.add(new LawnMower(1, LevelSceneMainPane, path));
         LawnMowers.add(new LawnMower(2, LevelSceneMainPane, path));
         LawnMowers.add(new LawnMower(3, LevelSceneMainPane, path));
@@ -626,7 +626,7 @@ public class LevelSceneController implements Initializable, Serializable {
             double y_lawn = lawnmowerGen.y;
             int id = lawnmowerGen.id;
 
-            LawnMower lawnmower = new LawnMower(id, LevelSceneMainPane, "Images/lawnmower.jpg");
+            LawnMower lawnmower = new LawnMower(id, LevelSceneMainPane, "/Images/lawnmower.jpg");
             LawnMowers.add(lawnmower);
         }
         //Loading Plants

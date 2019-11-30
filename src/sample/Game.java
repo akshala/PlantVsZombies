@@ -372,12 +372,12 @@ class LawnMower extends Type{
         this.id = id;
         this.path = path;
         double[] ycoord = {54.5, 119.5, 184.5, 249.5, 314.5};
-        Image imageView = new Image((getClass().getResourceAsStream(path)));
-        ImageView imageview = new ImageView();
-        imageview.setImage(imageView);
-        imageview.setFitWidth(50);
-        imageview.setFitHeight(40);
-        Pane p_lawn = new Pane(imageview);
+        Image image = new Image((getClass().getResourceAsStream(path)));
+        imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(40);
+        Pane p_lawn = new Pane(imageView);
         p_lawn.setLayoutX(75);
         p_lawn.setLayoutY(ycoord[id - 1]);
         MainPane.getChildren().add(p_lawn);
