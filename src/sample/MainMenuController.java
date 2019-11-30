@@ -73,4 +73,7 @@ public class MainMenuController {
         }
         return savedGame;
     }
+    public void exit(javafx.event.ActionEvent actionEvent) throws IOException{
+        System.exit(1);
+    }
 }
