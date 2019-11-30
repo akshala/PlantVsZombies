@@ -138,14 +138,22 @@ public class LevelSceneController implements Initializable, Serializable {
         ImageView PlantCard = (ImageView) event.getSource();
         Dragboard db = PlantCard.startDragAndDrop(TransferMode.ANY);
         ClipboardContent cb = new ClipboardContent();
+        int recharge = 5;
         switch (PlantCard.getId()){
-            case "PlantCard1" : cb.putString("/Images/Pea shooter.gif"); plant_category = "Pea_shooter";break;
-            case "PlantCard2" : cb.putString("/Images/Sunflower.png"); plant_category = "sunflower"; break;
-            case "PlantCard3" : cb.putString("/Images/Walnut.png");plant_category = "walnut"; break;
-            case "PlantCard4" : cb.putString("/Images/CherryBomb.png");plant_category = "cherryBomb"; break;
+            //        8888888888888888888888888888888888888888
+            case "PlantCard1" : cb.putString("/Images/Pea shooter.gif"); plant_category = "Pea_shooter";  recharge = PlantCards.get(0).getRecharge(); break;
+            case "PlantCard2" : cb.putString("/Images/Sunflower.png"); plant_category = "sunflower"; recharge = PlantCards.get(1).getRecharge(); break;
+            case "PlantCard3" : cb.putString("/Images/Walnut.png");plant_category = "walnut"; recharge = PlantCards.get(2).getRecharge(); break;
+            case "PlantCard4" : cb.putString("/Images/CherryBomb.png");plant_category = "cherryBomb"; recharge = PlantCards.get(3).getRecharge(); break;
+            //        8888888888888888888888888888888888888888
         }
         db.setContent(cb);
         event.consume();
+        Timeline t = new Timeline( new KeyFrame( Duration.seconds(recharge),(e) -> {
+            System.out.println("Recharge");
+        }));
+        t.setCycleCount(Animation.INDEFINITE);
+        t.play();
     }
     @FXML
     void plantDraggingOver(DragEvent event) {
@@ -245,24 +253,30 @@ public class LevelSceneController implements Initializable, Serializable {
         if(!saved) {
             InitializeZombies();
             InitializeLawnMowers();
-            System.out.println(LawnMowers.get(0).imageView);
+//            System.out.println(LawnMowers.get(0).imageView);
             Plants = new ArrayList<Plant>();
         }
         set_progressBar();
         InitializeSuns();
         InitializePlantCards();
+//        8888888888888888888888888888888888888888
+        PlantCard1.setVisible(false);
+        PlantCard2.setVisible(false);
+        PlantCard3.setVisible(false);
+        PlantCard4.setVisible(false);
+        //        8888888888888888888888888888888888888888
 
-//        for(LawnMower lawnmower: LawnMowers){
-//            for(Zombie zombie: Zombies){
-//                if(zombie.getActiveStatus()){
-//                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-//                        collision_with_lawnmower(lawnmower, zombie);
-//                    }));
-//                    t.setCycleCount(Animation.INDEFINITE);
-//                    t.play();
-//                }
-//            }
-//        }
+        for(LawnMower lawnmower: LawnMowers){
+            for(Zombie zombie: Zombies){
+                if(zombie.getActiveStatus()){
+                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                        collision_with_lawnmower(lawnmower, zombie);
+                    }));
+                    t.setCycleCount(Animation.INDEFINITE);
+                    t.play();
+                }
+            }
+        }
 
         try{
             Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
@@ -410,11 +424,6 @@ public class LevelSceneController implements Initializable, Serializable {
         }
     }
 
-//    private void removePea(Plant plant, Pea pea) {
-//        pea.imageView.setX(plant.imageView.getX());
-//        pea.imageView.setY(plant.imageView.getY());
-//    }
-
     void collision_with_lawnmower(LawnMower lawnmower_object, Zombie zombie_object){
         ImageView lawnmower = lawnmower_object.imageView;
         ImageView zombie = zombie_object.imageView;
@@ -482,19 +491,21 @@ public class LevelSceneController implements Initializable, Serializable {
             }
         }
     }
-
+    //        8888888888888888888888888888888888888888
     private void InitializeSuns() {
         int sunNo = 7;
         Suns = new ArrayList<Sun>();
+        int time = 0;
         for (int i = 0; i < sunNo; i ++){
-            Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), -20, LevelSceneMainPane, this);
+            Sun sun = new Sun(time, 1, 100 + rand.nextInt(500), -20, LevelSceneMainPane, this);
             Suns.add(sun);
+            time += 10;
         }
     }
-
+    //        8888888888888888888888888888888888888888
     private void InitializeLawnMowers() {
         LawnMowers = new ArrayList<LawnMower>();
-        String path = "Images/lawnmower.jpg";
+        String path = "/Images/lawnmower.jpg";
         LawnMowers.add(new LawnMower(1, LevelSceneMainPane, path));
         LawnMowers.add(new LawnMower(2, LevelSceneMainPane, path));
         LawnMowers.add(new LawnMower(3, LevelSceneMainPane, path));
@@ -503,13 +514,37 @@ public class LevelSceneController implements Initializable, Serializable {
         System.out.println(LawnMowers.get(0));
     }
 
+    //        8888888888888888888888888888888888888888
+
     private void InitializePlantCards(){
         PlantCards = new ArrayList<>();
-        PlantCards.add(new PeaShooterCard(PlantCard1));
-        PlantCards.add(new SunflowerCard(PlantCard2));
-        PlantCards.add(new WalnutBombCard(PlantCard3));
-        PlantCards.add(new CherryBombCard(PlantCard4));
+        if(LevelNo.equals("level1")){
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+        }
+        else if(LevelNo.equals("level2")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+        }
+        else if(LevelNo.equals("level3")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+            PlantCards.add(new WalnutBombCard(PlantCard3));
+        }
+        else if(LevelNo.equals("level4")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+            PlantCards.add(new WalnutBombCard(PlantCard3));
+            PlantCards.add(new CherryBombCard(PlantCard4));
+        }
+        else if(LevelNo.equals("level5")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+            PlantCards.add(new WalnutBombCard(PlantCard3));
+            PlantCards.add(new CherryBombCard(PlantCard4));
+        }
     }
+
+    //        8888888888888888888888888888888888888888
 
     public TextField getSunPoints(){
         return sunPoints;
@@ -626,7 +661,7 @@ public class LevelSceneController implements Initializable, Serializable {
             double y_lawn = lawnmowerGen.y;
             int id = lawnmowerGen.id;
 
-            LawnMower lawnmower = new LawnMower(id, LevelSceneMainPane, "Images/lawnmower.jpg");
+            LawnMower lawnmower = new LawnMower(id, LevelSceneMainPane, "/Images/lawnmower.jpg");
             LawnMowers.add(lawnmower);
         }
         //Loading Plants
