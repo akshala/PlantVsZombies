@@ -354,7 +354,6 @@ public class LevelSceneController implements Initializable, Serializable {
 //                    Zombies.remove(zombie);
                         zombie.setActiveFalse();
                         removeObject(zombie.imageView);
-                        zombieKilled++;
                     }
                 }));
                 t.setCycleCount(Animation.INDEFINITE);
