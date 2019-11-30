@@ -1,3 +1,4 @@
+
 package sample;
 
 import javafx.animation.*;
@@ -112,15 +113,15 @@ public class LevelSceneController implements Initializable, Serializable {
     void set_progressBar(){
         switch(LevelNo){
             case "level1" : timer(levelTime[0]);
-                            break;
+                break;
             case "level2" : timer(levelTime[1]);
-                            break;
+                break;
             case "level3" : timer(levelTime[2]);
-                            break;
+                break;
             case "level4" :
             case "level5" :
-                            timer(levelTime[3]);
-                            break;
+                timer(levelTime[3]);
+                break;
         }
     }
 
@@ -138,11 +139,12 @@ public class LevelSceneController implements Initializable, Serializable {
         ImageView PlantCard = (ImageView) event.getSource();
         Dragboard db = PlantCard.startDragAndDrop(TransferMode.ANY);
         ClipboardContent cb = new ClipboardContent();
+        int recharge = 5;
         switch (PlantCard.getId()){
-            case "PlantCard1" : cb.putString("/Images/Pea shooter.gif"); plant_category = "Pea_shooter";break;
-            case "PlantCard2" : cb.putString("/Images/Sunflower.png"); plant_category = "sunflower"; break;
-            case "PlantCard3" : cb.putString("/Images/Walnut.png");plant_category = "walnut"; break;
-            case "PlantCard4" : cb.putString("/Images/CherryBomb.png");plant_category = "cherryBomb"; break;
+            case "PlantCard1" : cb.putString("/Images/Pea shooter.gif"); plant_category = "Pea_shooter";  recharge = PlantCards.get(0).getRecharge(); break;
+            case "PlantCard2" : cb.putString("/Images/Sunflower.png"); plant_category = "sunflower"; recharge = PlantCards.get(1).getRecharge(); break;
+            case "PlantCard3" : cb.putString("/Images/Walnut.png");plant_category = "walnut"; recharge = PlantCards.get(2).getRecharge(); break;
+            case "PlantCard4" : cb.putString("/Images/CherryBomb.png");plant_category = "cherryBomb"; recharge = PlantCards.get(3).getRecharge(); break;
         }
         db.setContent(cb);
         event.consume();
@@ -250,6 +252,11 @@ public class LevelSceneController implements Initializable, Serializable {
         }
         set_progressBar();
         InitializePlantCards() ;
+
+        PlantCard1.setVisible(false);
+        PlantCard2.setVisible(false);
+        PlantCard3.setVisible(false);
+        PlantCard4.setVisible(false);
 
         for(LawnMower lawnmower: LawnMowers){
             for(Zombie zombie: Zombies){
@@ -374,8 +381,6 @@ public class LevelSceneController implements Initializable, Serializable {
             System.out.println("Collided with Plant");
             if(plant_object.getClass().getName().equals("sample.PeaShooter") || plant_object.getClass().getName().equals("sample.Sunflower")){
                 zombie_object.attack(plant_object, this);
-                plant_object.setActiveFalse();
-                removeObject(plant);
             }
             else if(plant_object.getClass().getName().equals("sample.CherryBomb")){
 //                Zombies.remove(zombie_object);
@@ -390,11 +395,11 @@ public class LevelSceneController implements Initializable, Serializable {
                 }));
                 t.setCycleCount(1);
                 t.play();
-                plant_object.setActiveFalse();
-                removeObject(plant);
                 T.play();
             }
         }
+        plant_object.setActiveFalse();
+        removeObject(plant);
     }
 
     void collision_with_pea(Plant plant, Pea pea, Zombie zombie_object){
@@ -485,9 +490,11 @@ public class LevelSceneController implements Initializable, Serializable {
     private void InitializeSuns() {
         int sunNo = 7;
         Suns = new ArrayList<Sun>();
+        int time = 0;
         for (int i = 0; i < sunNo; i ++){
-            Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), -20, LevelSceneMainPane, this);
+            Sun sun = new Sun(time, 1, 100 + rand.nextInt(500), -20, LevelSceneMainPane, this);
             Suns.add(sun);
+            time += 10;
         }
     }
 
@@ -504,10 +511,30 @@ public class LevelSceneController implements Initializable, Serializable {
 
     private void InitializePlantCards(){
         PlantCards = new ArrayList<>();
-        PlantCards.add(new PeaShooterCard(PlantCard1));
-        PlantCards.add(new SunflowerCard(PlantCard2));
-        PlantCards.add(new WalnutBombCard(PlantCard3));
-        PlantCards.add(new CherryBombCard(PlantCard4));
+        if(LevelNo.equals("level1")){
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+        }
+        else if(LevelNo.equals("level2")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+        }
+        else if(LevelNo.equals("level3")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+            PlantCards.add(new WalnutBombCard(PlantCard3));
+        }
+        else if(LevelNo.equals("level4")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+            PlantCards.add(new WalnutBombCard(PlantCard3));
+            PlantCards.add(new CherryBombCard(PlantCard4));
+        }
+        else if(LevelNo.equals("level5")) {
+            PlantCards.add(new PeaShooterCard(PlantCard1));
+            PlantCards.add(new SunflowerCard(PlantCard2));
+            PlantCards.add(new WalnutBombCard(PlantCard3));
+            PlantCards.add(new CherryBombCard(PlantCard4));
+        }
     }
 
     public TextField getSunPoints(){
@@ -715,3 +742,4 @@ public class LevelSceneController implements Initializable, Serializable {
         createLevel(true);
     }
 }
+
