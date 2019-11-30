@@ -1,3 +1,4 @@
+
 package sample;
 
 import javafx.animation.Animation;
@@ -46,29 +47,6 @@ abstract class Type implements Serializable{
     abstract void attack();
 }
 
-abstract class Plant extends Type{
-
-    String imagePath;
-    ImageView imageView;
-    private final int sunCost;
-    private final int recharge;
-
-    Plant(String path, int sunCost, int recharge, ImageView imageView){
-        super();
-        this.imagePath = path;
-        this.sunCost = sunCost;
-        this.recharge = recharge;
-        this.imageView = imageView;
-        active = true;
-    }
-    int getSunCost(){
-        return sunCost;
-    }
-    int getRecharge(){
-        return recharge;
-    }
-
-}
 
 abstract class PlantCard{
     ImageView imageView;
@@ -91,27 +69,55 @@ abstract class PlantCard{
 
 class PeaShooterCard extends PlantCard{
     PeaShooterCard(ImageView imageview){
-        super(100, 5, imageview);
+        super(100, 7, imageview);
     }
 
 }
 
 class SunflowerCard extends PlantCard{
     SunflowerCard(ImageView imageview){
-        super(50, 5, imageview);
+        super(50, 7, imageview);
     }
 }
 
 class CherryBombCard extends PlantCard{
     CherryBombCard(ImageView imageview){
-        super(150, 10, imageview);
+        super(150, 20, imageview);
     }
 }
 
 class WalnutBombCard extends PlantCard{
     WalnutBombCard(ImageView imageview){
-        super(50, 7, imageview);
+        super(50, 15, imageview);
     }
+}
+
+abstract class Plant extends Type{
+
+    String imagePath;
+    ImageView imageView;
+    private final int sunCost;
+    private final int recharge;
+    double x;
+    double y;
+
+    Plant(String path, int sunCost, int recharge, ImageView imageView){
+        super();
+        this.imagePath = path;
+        this.sunCost = sunCost;
+        this.recharge = recharge;
+        this.imageView = imageView;
+        x = imageView.getLocalToSceneTransform().getTx() + 20;
+        y = imageView.getLocalToSceneTransform().getTy() + 20;
+        active = true;
+    }
+    int getSunCost(){
+        return sunCost;
+    }
+    int getRecharge(){
+        return recharge;
+    }
+
 }
 
 final class Pea{
@@ -177,17 +183,25 @@ class PeaShooter extends Plant{
 
 
 class Sunflower extends Plant{
-    private Sun sun;
-    double x;
-    double y;
 
-    public Sunflower(String path, ImageView imageView, LevelSceneController levelSceneController) {
+    private Sun sun;
+
+
+    public Sunflower(String path, ImageView imageView, LevelSceneController levelSceneController, double sunX, double sunY, boolean saved) {
         super(path,50, 7, imageView);
         x = imageView.getLocalToSceneTransform().getTx() + 20;
         y = imageView.getLocalToSceneTransform().getTy() + 20;
+        if(saved == false) {
+            sunX = (int) x + 20;
+            sunY = (int) y;
+        }
+        System.out.println(x);
+        System.out.println(y);
+        double finalSunX = sunX;
+        double finalSunY = sunY;
         Timeline t = new Timeline(new KeyFrame(Duration.seconds(10),(event) -> {
             if(active)
-                sun = new Sun(10, 2, x, y, levelSceneController.getMainPane(), levelSceneController);;
+                sun = new Sun(10, 2, finalSunX, finalSunY, levelSceneController.getMainPane(), levelSceneController);;
         }));
         t.setCycleCount(Animation.INDEFINITE);
         t.play();
@@ -197,6 +211,7 @@ class Sunflower extends Plant{
 
     }
 }
+
 
 class CherryBomb extends Plant{
 
@@ -434,13 +449,17 @@ class Game implements Serializable {
     ArrayList<LawnMowerRegenerator> lawnMowerRegenerators;
     Player player;
     String levelNo;
+    double progress_time;
+    int sunToken;
 
-    public Game(ArrayList<ZombieRegenerator> zombieRegenerators, ArrayList<PlantRegenerator> plantRegenerators, ArrayList<LawnMowerRegenerator> lawnMowerRegenerators, Player player, String levelNo) {
+    public Game(int sunToken, double progress_time, ArrayList<ZombieRegenerator> zombieRegenerators, ArrayList<PlantRegenerator> plantRegenerators, ArrayList<LawnMowerRegenerator> lawnMowerRegenerators, Player player, String levelNo) {
         this.zombieRegenerators = zombieRegenerators;
         this.plantRegenerators = plantRegenerators;
         this.lawnMowerRegenerators = lawnMowerRegenerators;
         this.levelNo = levelNo;
         this.player = player;
+        this.progress_time = progress_time;
+        this.sunToken = sunToken;
 
     }
 
@@ -505,8 +524,14 @@ class ZombieRegenerator extends Regenerators{
     }
 }
 class PlantRegenerator extends Regenerators{
-    PlantRegenerator(double x, double y, String imagePath){
+    double x1;
+    double y1;
+    String RowId;
+    PlantRegenerator(double x, double y, String imagePath, String Rowid, double x1, double y1){
         super(x, y, imagePath);
+        this.x1 = y1;
+        this.y1 = y1;
+        this.RowId = Rowid;
     }
 }
 class LawnMowerRegenerator extends Regenerators{
@@ -516,3 +541,4 @@ class LawnMowerRegenerator extends Regenerators{
         this.id = id;
     }
 }
+
