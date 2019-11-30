@@ -27,7 +27,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class LevelSceneController implements Initializable, Serializable {
@@ -297,31 +296,48 @@ public class LevelSceneController implements Initializable, Serializable {
 
     void zombie_reached_house(){
         for(Zombie zombie: Zombies){
-            Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+            var lambdaContext = new Object() {
+                Timeline t = null;
+            };
+            lambdaContext.t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
                 ImageView zombie_image = zombie.imageView;
                 if(zombie_image.getLocalToSceneTransform().getTx() < 10 && zombie_image.isVisible()){
                     System.out.println("Game Over");
-                    Image image = new Image(getClass().getResourceAsStream("/Images/loser.jpeg"));
-                    ImageView imageView = new ImageView();
-                    imageView.setImage(image);
-                    imageView.setFitWidth(300);
-                    imageView.setFitHeight(200);
-                    Pane pane = new Pane(imageView);
-                    pane.setLayoutY(100);
-                    pane.setLayoutX(200);
-                    LevelSceneMainPane.getChildren().add(pane);
-                    imageView.setVisible(true);
+
+                    lambdaContext.t.stop();
+                    Parent new_parent = null;
+                    try {
+                        new_parent = FXMLLoader.load(getClass().getResource("GameLost.fxml"));
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    Scene new_scene = new Scene(new_parent);
+                    Stage old_stage = (Stage) menu.getScene().getWindow();
+                    old_stage.setScene(new_scene);
+
+//                    Image image = new Image(getClass().getResourceAsStream("/Images/loser.jpeg"));
+//                    ImageView imageView = new ImageView();
+//                    imageView.setImage(image);
+//                    imageView.setFitWidth(300);
+//                    imageView.setFitHeight(200);
+//                    Pane pane = new Pane(imageView);
+//                    pane.setLayoutY(100);
+//                    pane.setLayoutX(200);
+//                    LevelSceneMainPane.getChildren().add(pane);
+//                    imageView.setVisible(true);
                 }
             }));
-            t.setCycleCount(Animation.INDEFINITE);
-            t.play();
+            lambdaContext.t.setCycleCount(Animation.INDEFINITE);
+            lambdaContext.t.play();
         }
     }
 
     void gameWin() {
         final boolean[] flag = {false};
-        Timeline t;
-        t =  new Timeline(new KeyFrame(Duration.seconds(0.5), (event) -> {
+        var lambdaContext = new Object() {
+            Timeline t = null;
+        };
+        lambdaContext.t =  new Timeline(new KeyFrame(Duration.seconds(0.5), (event) -> {
             try {
                 Zombies.get(0);
             } catch (IndexOutOfBoundsException e) {
@@ -329,23 +345,31 @@ public class LevelSceneController implements Initializable, Serializable {
                 flag[0] = true;
 //                System.out.println("Timeline stopped");
 //                System.out.println("Game won");
-                Image image = new Image(getClass().getResourceAsStream("/Images/win.jpg"));
-                ImageView imageView = new ImageView();
-                imageView.setImage(image);
-                imageView.setFitWidth(300);
-                imageView.setFitHeight(200);
-                Pane pane = new Pane(imageView);
-                pane.setLayoutY(100);
-                pane.setLayoutX(200);
-                LevelSceneMainPane.getChildren().add(pane);
-                imageView.setVisible(true);
+                lambdaContext.t.stop();
+                Parent new_parent = null;
+                try {
+                    new_parent = FXMLLoader.load(getClass().getResource("GameWon.fxml"));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                Scene new_scene = new Scene(new_parent);
+                Stage old_stage = (Stage) menu.getScene().getWindow();
+                old_stage.setScene(new_scene);
+
+//                Image image = new Image(getClass().getResourceAsStream("/Images/win.jpg"));
+//                ImageView imageView = new ImageView();
+//                imageView.setImage(image);
+//                imageView.setFitWidth(300);
+//                imageView.setFitHeight(200);
+//                Pane pane = new Pane(imageView);
+//                pane.setLayoutY(100);
+//                pane.setLayoutX(200);
+//                LevelSceneMainPane.getChildren().add(pane);
+//                imageView.setVisible(true);
             }
         }));
-        t.setCycleCount(Animation.INDEFINITE);
-        t.play();
-        if(flag[0]){
-            t.stop();
-        }
+        lambdaContext.t.setCycleCount(Animation.INDEFINITE);
+        lambdaContext.t.play();
     }
 
 
