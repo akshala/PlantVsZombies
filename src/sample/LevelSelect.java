@@ -18,6 +18,10 @@ public class LevelSelect {
     private AnchorPane LevelSelectMain;
     private Player player;
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     @FXML
     public void changeScene_levelScene(javafx.event.ActionEvent actionEvent) throws IOException {
         String Level = ((Node)actionEvent.getSource()).getId();
@@ -31,7 +35,5 @@ public class LevelSelect {
         oldPlayer_stage.setScene(LScene);
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+
 }

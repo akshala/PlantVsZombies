@@ -510,6 +510,7 @@ class Player implements Serializable{
     String getName(){
         return name;
     }
+
 }
 
 class Regenerators implements Serializable{

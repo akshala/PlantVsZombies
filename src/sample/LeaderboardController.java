@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -12,6 +13,19 @@ import java.io.IOException;
 public class LeaderboardController {
     @FXML
     private Button back;
+
+    @FXML
+    TextField t1;
+
+    @FXML
+    TextField t2;
+
+    @FXML
+    TextField t3;
+
+    @FXML
+    TextField t4;
+
     @FXML
     public void changeScene_mainMenu(javafx.event.ActionEvent actionEvent) throws IOException {
         Parent new_parent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));

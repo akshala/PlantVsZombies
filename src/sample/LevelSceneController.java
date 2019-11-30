@@ -21,10 +21,7 @@ import javafx.util.Duration;
 
 import javafx.scene.control.TextField;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -170,12 +167,14 @@ public class LevelSceneController implements Initializable, Serializable {
         db.setContent(cb);
         event.consume();
         p.imageView.setVisible(false);
+        p.imageView.setDisable(true);
+        sample.PlantCard finalP = p;
         Timeline t = new Timeline( new KeyFrame( Duration.seconds(recharge),(e) -> {
             System.out.println("Recharge");
+            finalP.imageView.setDisable(false);
+            finalP.imageView.setVisible(true);
         }));
-        t.setCycleCount(1);
         t.play();
-        p.imageView.setVisible(true);
         timelines.add(t);
     }
     @FXML
@@ -234,7 +233,6 @@ public class LevelSceneController implements Initializable, Serializable {
         Scene new_scene = new Scene(new_parent);
         Stage old_stage = (Stage) menu.getScene().getWindow();
         old_stage.setScene(new_scene);
-//        File leaderboard = new FileReader
     }
 
     public void setSceneNumber(String id) {
@@ -286,6 +284,7 @@ public class LevelSceneController implements Initializable, Serializable {
 
     private void createLevel(boolean saved) {
         timelines = new ArrayList<Timeline>();
+        zombieKilled = 0;
         if(!saved) {
             InitializeZombies();
             InitializeSuns();
@@ -355,6 +354,7 @@ public class LevelSceneController implements Initializable, Serializable {
 //                    Zombies.remove(zombie);
                         zombie.setActiveFalse();
                         removeObject(zombie.imageView);
+                        zombieKilled++;
                     }
                 }));
                 t.setCycleCount(Animation.INDEFINITE);
@@ -376,6 +376,11 @@ public class LevelSceneController implements Initializable, Serializable {
                     if(zombie_image.getLocalToSceneTransform().getTx() < 10 && zombie_image.isVisible()){
                         System.out.println("Game Over");
                         lambdaContext.t.stop();
+                        try {
+                            write_leaderBoard();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         closeThreads();
                         try {
                             FXMLLoader GameLostLoader = new FXMLLoader(getClass().getResource("GameLost.fxml"));
@@ -415,6 +420,11 @@ public class LevelSceneController implements Initializable, Serializable {
             if(won){
                 System.out.println("You win");
                 lambdaContext.t.stop();
+                try {
+                    write_leaderBoard();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 closeThreads();
                 try {
                     FXMLLoader GameWonLoader = new FXMLLoader(getClass().getResource("GameWon.fxml"));
@@ -452,6 +462,7 @@ public class LevelSceneController implements Initializable, Serializable {
                 zombie_object.setActiveFalse();
                 zombie_object.attack(plant_object, this);
                 removeObject(zombie);
+                zombieKilled++;
                 Timeline t = new Timeline( new KeyFrame( Duration.seconds(2),(event) -> {
                     while (plant_object.health > 0){
                         plant_object.imageView.setImage(new Image(getClass().getResourceAsStream("/Images/Boom.png")));
@@ -506,6 +517,7 @@ public class LevelSceneController implements Initializable, Serializable {
 //            Zombies.remove(zombie_object);
             zombie_object.setActiveFalse();
             removeObject(zombie);
+            zombieKilled++;
         }
     }
 
@@ -634,12 +646,14 @@ public class LevelSceneController implements Initializable, Serializable {
 
     @FXML
     void Save_changeScene_mainMenu(ActionEvent event) throws IOException {
+        write_leaderBoard();
         saveGame();
         changeScene_mainMenu(event);
     }
 
     @FXML
     void SaveAndContinue(ActionEvent event) throws IOException {
+        write_leaderBoard();
         saveGame();
     }
 
@@ -656,6 +670,17 @@ public class LevelSceneController implements Initializable, Serializable {
                 lawnmower.T.stop();
             } catch (NullPointerException ignored) {
             }
+        }
+    }
+
+    void write_leaderBoard() throws IOException {
+        FileWriter leaderboard = null;
+        try{
+            leaderboard = new FileWriter("leaderboard.txt", true);
+            leaderboard.write(player.getName() + " " + zombieKilled + "\n");
+        }
+        finally {
+            leaderboard.close();
         }
     }
 
