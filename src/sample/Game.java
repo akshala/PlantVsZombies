@@ -136,8 +136,8 @@ final class Pea{
         T.setCycleCount(1);
         T.play();
         Pane p = new Pane(imageView);
-        System.out.println(cell.getLocalToSceneTransform().getTx());
-        System.out.println(cell.getLocalToSceneTransform().getTy());
+//        System.out.println(cell.getLocalToSceneTransform().getTx());
+//        System.out.println(cell.getLocalToSceneTransform().getTy());
         p.setLayoutX(cell.getLocalToSceneTransform().getTx() + 20);
         p.setLayoutY(cell.getLocalToSceneTransform().getTy() + 20);
         (levelSceneController.getPeaPlane()).getChildren().add(p);
@@ -186,7 +186,7 @@ class Sunflower extends Plant{
         x = imageView.getLocalToSceneTransform().getTx() + 20;
         y = imageView.getLocalToSceneTransform().getTy() + 20;
         Timeline t = new Timeline(new KeyFrame(Duration.seconds(10),(event) -> {
-            if(active == true)
+            if(active)
                 sun = new Sun(10, 2, x, y, levelSceneController.getMainPane(), levelSceneController);;
         }));
         t.setCycleCount(Animation.INDEFINITE);
@@ -317,17 +317,20 @@ class Zombie extends Type{
         T.setDuration(Duration.seconds(40));
         T.setDelay(Duration.seconds(arrivalTime));
         T.play();
-        System.out.println("y = "+ycoord[row]);
-        System.out.println("x = "+ x);
+//        System.out.println("y = "+ycoord[row]);
+//        System.out.println("x = "+ x);
         MainPane.getChildren().add(pane);
 
         this.arrivalTime = arrivalTime;
         this.health = health;
         this.attack = attack;
     }
-    void attack(){
+
+    @Override
+    void attack() {
 
     }
+
     void attack(Plant plant, LevelSceneController controller){
         int count = 0;
         T.stop();

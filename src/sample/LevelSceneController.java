@@ -1,16 +1,12 @@
 package sample;
 
 import javafx.animation.*;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
@@ -23,19 +19,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.*;
 import javafx.scene.control.TextField;
 
-import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class LevelSceneController implements Initializable, Serializable {
@@ -49,6 +41,7 @@ public class LevelSceneController implements Initializable, Serializable {
     Random rand;
     String plant_category;
     ArrayList<PlantCard> PlantCards;
+    int[] levelTime = {2, 3, 4, 5, 5};
 
     @FXML
     private Pane PeaMainPane;
@@ -114,14 +107,30 @@ public class LevelSceneController implements Initializable, Serializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.minutes(0), new KeyValue(timer.progressProperty(), 0)),
-                new KeyFrame(Duration.minutes(0.5), new KeyValue(timer.progressProperty(), 1))
-        );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
         rand = new Random();
+    }
 
+    void set_progressBar(){
+        switch(LevelNo){
+            case "level1" : timer(levelTime[0]);
+                            break;
+            case "level2" : timer(levelTime[1]);
+                            break;
+            case "level3" : timer(levelTime[2]);
+                            break;
+            case "level4" :
+            case "level5" :
+                            timer(levelTime[3]);
+                            break;
+        }
+    }
+
+    void timer(int t){
+        Timeline t1 = new Timeline(
+                new KeyFrame(Duration.minutes(0), new KeyValue(timer.progressProperty(), 0)),
+                new KeyFrame(Duration.minutes(t), new KeyValue(timer.progressProperty(), 1)));
+        t1.setCycleCount(Animation.INDEFINITE);
+        t1.play();
     }
 
 
@@ -156,7 +165,7 @@ public class LevelSceneController implements Initializable, Serializable {
             Image image = new Image(getClass().getResourceAsStream(event.getDragboard().getString()));
             cell.setImage(image);
             Plant plant;
-            System.out.println("Before creating a plant");
+//            System.out.println("Before creating a plant");
             switch(plant_category){
                 case "Pea_shooter" : plant = new PeaShooter(imagePath, cell,this); break;
                 case "sunflower" : plant = new Sunflower(imagePath, cell, this); break;
@@ -165,14 +174,14 @@ public class LevelSceneController implements Initializable, Serializable {
                 default:
                     throw new IllegalStateException("Unexpected value: " + plant_category);
             }
-            System.out.println("Finished creating plant");
+//            System.out.println("Finished creating plant");
             Plants.add(plant);
-            System.out.println("After creating a plant");
+//            System.out.println("After creating a plant");
             if(plant_category.equals("Pea_shooter")){
                 for(Zombie zombie: Zombies){
                     Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(e) -> {
                         Pea pea = ((PeaShooter)plant).getPea();
-                        if(pea != null && pea.active == true)
+                        if(pea != null && pea.active)
                             collision_with_pea(plant, pea, zombie);
                     }));
                     t.setCycleCount(Animation.INDEFINITE);
@@ -231,14 +240,15 @@ public class LevelSceneController implements Initializable, Serializable {
     }
 
     private void createLevel(boolean saved) {
-        if(saved == false) {
+
+        if(!saved) {
             InitializeZombies();
             InitializeSuns();
             InitializeLawnMowers();
             Plants = new ArrayList<Plant>();
         }
-
-        InitializePlantCards();
+        set_progressBar();
+        InitializePlantCards() ;
 
         for(LawnMower lawnmower: LawnMowers){
             for(Zombie zombie: Zombies){
@@ -254,7 +264,7 @@ public class LevelSceneController implements Initializable, Serializable {
             Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
 
                 for(Plant plant: Plants){
-                    if(plant.getActiveStatus() == true) {
+                    if(plant.getActiveStatus()) {
                         for (Zombie zombie : Zombies) {
                             collision_with_plant(plant, zombie);
                         }
@@ -264,11 +274,12 @@ public class LevelSceneController implements Initializable, Serializable {
             t.setCycleCount(Animation.INDEFINITE);
             t.play();
         }
-        catch(NullPointerException e){
+        catch(NullPointerException ignored){
         }
+        set_plantCards();
         is_ZombieDead();
         zombie_reached_house();
-        set_plantCards();
+        gameWin();
     }
 
     void is_ZombieDead(){
@@ -290,8 +301,7 @@ public class LevelSceneController implements Initializable, Serializable {
                 ImageView zombie_image = zombie.imageView;
                 if(zombie_image.getLocalToSceneTransform().getTx() < 10 && zombie_image.isVisible()){
                     System.out.println("Game Over");
-
-                    Image image = new Image("Images/loser.jpeg");
+                    Image image = new Image(getClass().getResourceAsStream("/Images/loser.jpeg"));
                     ImageView imageView = new ImageView();
                     imageView.setImage(image);
                     imageView.setFitWidth(300);
@@ -300,10 +310,41 @@ public class LevelSceneController implements Initializable, Serializable {
                     pane.setLayoutY(100);
                     pane.setLayoutX(200);
                     LevelSceneMainPane.getChildren().add(pane);
+                    imageView.setVisible(true);
                 }
             }));
             t.setCycleCount(Animation.INDEFINITE);
             t.play();
+        }
+    }
+
+    void gameWin() {
+        final boolean[] flag = {false};
+        Timeline t;
+        t =  new Timeline(new KeyFrame(Duration.seconds(0.5), (event) -> {
+            try {
+                Zombies.get(0);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("You win");
+                flag[0] = true;
+//                System.out.println("Timeline stopped");
+//                System.out.println("Game won");
+                Image image = new Image(getClass().getResourceAsStream("/Images/win.jpg"));
+                ImageView imageView = new ImageView();
+                imageView.setImage(image);
+                imageView.setFitWidth(300);
+                imageView.setFitHeight(200);
+                Pane pane = new Pane(imageView);
+                pane.setLayoutY(100);
+                pane.setLayoutX(200);
+                LevelSceneMainPane.getChildren().add(pane);
+                imageView.setVisible(true);
+            }
+        }));
+        t.setCycleCount(Animation.INDEFINITE);
+        t.play();
+        if(flag[0]){
+            t.stop();
         }
     }
 
@@ -312,11 +353,24 @@ public class LevelSceneController implements Initializable, Serializable {
         ImageView plant = plant_object.imageView;
         ImageView zombie = zombie_object.imageView;
         if(collisionDetection(plant, zombie)){
-            System.out.println("Collided with Plant");
-            zombie_object.attack(plant_object, this);
-            plant_object.setActiveFalse();
-
-//            removeObject(plant);
+//            System.out.println("Collided with Plant");
+            if(plant_object.getClass().equals("PeaShooter") || plant_object.getClass().equals("Sunflower")){
+                zombie_object.attack(plant_object, this);
+                plant_object.setActiveFalse();
+                removeObject(plant);
+            }
+            else if(plant_object.getClass().equals("CherryBomb")){
+                Zombies.remove(zombie_object);
+                removeObject(zombie);
+            }
+            else if(plant_object.getClass().equals("WalnutBomb")){
+                TranslateTransition t = zombie_object.T;
+                SequentialTransition seqTransition = new SequentialTransition (
+                        new PauseTransition(Duration.seconds(10)), t);
+                seqTransition.play();
+                plant_object.setActiveFalse();
+                removeObject(plant);
+            }
         }
     }
 
@@ -324,9 +378,9 @@ public class LevelSceneController implements Initializable, Serializable {
         ImageView zombie = zombie_object.imageView;
         if(collisionDetection(pea.imageView, zombie)){
             zombie_object.setHealth(zombie_object.getHealth() - 2);
-            System.out.println("Pea collided with zombie ");
+//            System.out.println("Pea collided with zombie ");
             pea.active = false;
-            System.out.println(pea);
+//            System.out.println(pea);
             removeObject(pea.imageView);
 //            removePea(plant, pea);
         }
@@ -377,18 +431,29 @@ public class LevelSceneController implements Initializable, Serializable {
         int level = (int)LevelNo.charAt(5)-49;
 //        System.out.println(level);
 //        System.out.println("Just printed level number");
-        createZombies(LevelZombieTable[level], ZombieTypes);
-
+        createZombies(level + 1, LevelZombieTable[level], ZombieTypes);
     }
 
-    private void createZombies(Integer[] zombieNum, String[] zombieTypes) {
+    private void createZombies(int level, Integer[] zombieNum, String[] zombieTypes) {
         Integer[] health = {5,8,8,9,10,5};
         Integer[] attack = {2,5,5,6,7,5};
         Zombies = new ArrayList<Zombie>();
         for(int i = 0; i < 6; i ++){
             for(int j = 0; j < zombieNum[i]; j++){
-                Zombie zomb = new Zombie(zombieTypes[i], health[i], attack[i], rand.nextInt(20), rand.nextInt(5), 700, LevelSceneMainPane);
-                Zombies.add(zomb);
+                Zombie zomb;
+//                System.out.println("Level " + level);
+                if(level == 1){
+                    zomb = new Zombie(zombieTypes[i], health[i], attack[i], rand.nextInt(20), 2, 700, LevelSceneMainPane);
+                    Zombies.add(zomb);
+                }
+                else if(level == 2){
+                    zomb = new Zombie(zombieTypes[i], health[i], attack[i], rand.nextInt(20), 1 + rand.nextInt(3), 700, LevelSceneMainPane);
+                    Zombies.add(zomb);
+                }
+                else{
+                    zomb = new Zombie(zombieTypes[i], health[i], attack[i], rand.nextInt(20), rand.nextInt(5), 700, LevelSceneMainPane);
+                    Zombies.add(zomb);
+                }
             }
         }
     }
@@ -397,7 +462,7 @@ public class LevelSceneController implements Initializable, Serializable {
         int sunNo = 7;
         Suns = new ArrayList<Sun>();
         for (int i = 0; i < sunNo; i ++){
-            Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), 0, LevelSceneMainPane, this);
+            Sun sun = new Sun(rand.nextInt(120), 1, 100 + rand.nextInt(500), -20, LevelSceneMainPane, this);
             Suns.add(sun);
         }
     }
@@ -447,13 +512,13 @@ public class LevelSceneController implements Initializable, Serializable {
     }
 
     private void saveGame() throws IOException {
-        System.out.println("Starting to save game...");
+//        System.out.println("Starting to save game...");
         ArrayList<ZombieRegenerator> zombieRegenerators = new ArrayList<ZombieRegenerator>();
         ArrayList<PlantRegenerator> plantRegenerators = new ArrayList<PlantRegenerator>();
         ArrayList<LawnMowerRegenerator> lawnMowerRegenerators = new ArrayList<LawnMowerRegenerator>();
         for(Zombie zombie: Zombies){
-            System.out.println(zombie+"Without active check");
-            if(zombie.active == true){
+//            System.out.println(zombie+"Without active check");
+            if(zombie.active){
 //                System.out.println(zombie);
                 double x = 700 + zombie.imageView.getParent().getTranslateX();
                 double y = zombie.imageView.getParent().getLayoutY();
@@ -468,7 +533,7 @@ public class LevelSceneController implements Initializable, Serializable {
                 double x = plant.imageView.getParent().getLayoutX();
                 double y = plant.imageView.getParent().getLayoutY();
                 String imagePath = plant.imagePath;
-                System.out.println("Plant saving time coordinates "+x+" "+y);
+//                System.out.println("Plant saving time coordinates "+x+" "+y);
                 PlantRegenerator plantGen = new PlantRegenerator(x, y, imagePath);
                 plantRegenerators.add(plantGen);
             }
@@ -513,27 +578,27 @@ public class LevelSceneController implements Initializable, Serializable {
 
         //Loading Zombies
         Zombies = new ArrayList<Zombie>();
-        System.out.println(zombieRegenerators);
+//        System.out.println(zombieRegenerators);
         for(ZombieRegenerator zombGen : zombieRegenerators){
             String path = zombGen.imagePath;
             double x = zombGen.x;
             double y = zombGen.y;
-            System.out.println(path);
-            System.out.println(x);
-            System.out.println(y);
+//            System.out.println(path);
+//            System.out.println(x);
+//            System.out.println(y);
             Zombie zomb = new Zombie(path, (int) zombGen.health, zombGen.attack, 0, zombGen.row, x, LevelSceneMainPane);
             Zombies.add(zomb);
         }
         //Loading Zombies
         Plants = new ArrayList<Plant>();
-        System.out.println(plantRegenerators);
+//        System.out.println(plantRegenerators);
         for(PlantRegenerator plantGen : plantRegenerators){
             String imagePath = plantGen.imagePath;
             double x = plantGen.x;
             double y = plantGen.y;
-            System.out.println(imagePath);
-            System.out.println(x);
-            System.out.println(y);
+//            System.out.println(imagePath);
+//            System.out.println(x);
+//            System.out.println(y);
 
             ImageView cell = new ImageView();
             cell.setFitWidth(53);
@@ -546,7 +611,7 @@ public class LevelSceneController implements Initializable, Serializable {
             Image image = new Image(getClass().getResourceAsStream(imagePath));
             cell.setImage(image);
             Plant plant;
-            System.out.println("Before creating a plant");
+//            System.out.println("Before creating a plant");
             switch(imagePath){
                 case "/Images/Pea Shooter.gif" : plant = new PeaShooter(imagePath, cell,this); break;
                 case "/Images/Sunflower.png" : plant = new Sunflower(imagePath, cell, this); break;
@@ -555,9 +620,9 @@ public class LevelSceneController implements Initializable, Serializable {
                 default:
                     throw new IllegalStateException("Unexpected value: " + plant_category);
             }
-            System.out.println("Finished creating plant");
+//            System.out.println("Finished creating plant");
             Plants.add(plant);
-            System.out.println("After creating a plant");
+//            System.out.println("After creating a plant");
             if(imagePath.equals("Pea_shooter")) {
                 for (Zombie zombie : Zombies) {
                     Timeline t = new Timeline(new KeyFrame(Duration.seconds(0.5), (e) -> {
