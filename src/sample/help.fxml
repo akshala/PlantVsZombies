@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.HelpController">
+   <children>
+      <TextArea layoutX="8.0" layoutY="8.0" prefHeight="391.0" prefWidth="588.0" text="Protect your house from zombies! Collect the falling sun tokens to earn points. These points can be used to buy plants which attack zombies and protect your house. Just place the plants on the grid by clicking and dragging them. The peaShooter shoots peas that kill the zombie. Sunflower generates more suns. The walnutBomb acts as a barrier for the zombies. The cherryBomb instatantly kills the zombies at the spot where it is placed. Each plant has a different suncost and recharge time. " wrapText="true">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="back" layoutX="489.0" layoutY="354.0" mnemonicParsing="false" onAction="#changeScene_mainMenu" text="Back " />
+   </children>
+</AnchorPane>

@@ -297,6 +297,7 @@ class Zombie extends Type{
 
     Zombie(String path, int health, int attack, int arrivalTime, int row, double x, AnchorPane MainPane){
         super();
+        active = true;
         double[] ycoord = {54.5, 119.5, 184.5, 249.5, 314.5};
         this.row = row;
         this.imagePath = path;
@@ -363,13 +364,24 @@ class Zombie extends Type{
 class LawnMower extends Type{
 
     ImageView imageView;
-    Pane pane;
     TranslateTransition T;
     int id;
+    String path;
 
-    LawnMower(ImageView imageView, int id){
-        this.imageView = imageView;
+    LawnMower(int id, AnchorPane MainPane, String path){
         this.id = id;
+        this.path = path;
+        double[] ycoord = {54.5, 119.5, 184.5, 249.5, 314.5};
+        Image imageView = new Image((getClass().getResourceAsStream(path)));
+        ImageView imageview = new ImageView();
+        imageview.setImage(imageView);
+        imageview.setFitWidth(50);
+        imageview.setFitHeight(40);
+        Pane p_lawn = new Pane(imageview);
+        p_lawn.setLayoutX(75);
+        p_lawn.setLayoutY(ycoord[id - 1]);
+        MainPane.getChildren().add(p_lawn);
+        System.out.println(id);
     }
 
     void attack(){
@@ -498,7 +510,9 @@ class PlantRegenerator extends Regenerators{
     }
 }
 class LawnMowerRegenerator extends Regenerators{
-    LawnMowerRegenerator(double x, double y, String imagePath){
+    int id;
+    LawnMowerRegenerator(double x, double y, String imagePath, int id){
         super(x, y, imagePath);
+        this.id = id;
     }
 }
