@@ -297,6 +297,7 @@ class Zombie extends Type{
 
     Zombie(String path, int health, int attack, int arrivalTime, int row, double x, AnchorPane MainPane){
         super();
+        active = true;
         double[] ycoord = {54.5, 119.5, 184.5, 249.5, 314.5};
         this.row = row;
         this.imagePath = path;

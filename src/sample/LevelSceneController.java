@@ -178,13 +178,15 @@ public class LevelSceneController implements Initializable, Serializable {
 //            System.out.println("After creating a plant");
             if(plant_category.equals("Pea_shooter")){
                 for(Zombie zombie: Zombies){
-                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(e) -> {
-                        Pea pea = ((PeaShooter)plant).getPea();
-                        if(pea != null && pea.active)
-                            collision_with_pea(plant, pea, zombie);
-                    }));
-                    t.setCycleCount(Animation.INDEFINITE);
-                    t.play();
+                    if(zombie.getActiveStatus()){
+                        Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(e) -> {
+                            Pea pea = ((PeaShooter)plant).getPea();
+                            if(pea != null && pea.active)
+                                collision_with_pea(plant, pea, zombie);
+                        }));
+                        t.setCycleCount(Animation.INDEFINITE);
+                        t.play();
+                    }
                 }
             }
         }
@@ -251,11 +253,13 @@ public class LevelSceneController implements Initializable, Serializable {
 
         for(LawnMower lawnmower: LawnMowers){
             for(Zombie zombie: Zombies){
-                Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-                    collision_with_lawnmower(lawnmower, zombie);
-                }));
-                t.setCycleCount(Animation.INDEFINITE);
-                t.play();
+                if(zombie.getActiveStatus()){
+                    Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                        collision_with_lawnmower(lawnmower, zombie);
+                    }));
+                    t.setCycleCount(Animation.INDEFINITE);
+                    t.play();
+                }
             }
         }
 
@@ -265,7 +269,9 @@ public class LevelSceneController implements Initializable, Serializable {
                 for(Plant plant: Plants){
                     if(plant.getActiveStatus()) {
                         for (Zombie zombie : Zombies) {
-                            collision_with_plant(plant, zombie);
+                            if(zombie.getActiveStatus()){
+                                collision_with_plant(plant, zombie);
+                            }
                         }
                     }
                 }
@@ -283,99 +289,78 @@ public class LevelSceneController implements Initializable, Serializable {
 
     void is_ZombieDead(){
         for(Zombie zombie: Zombies){
-            Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-                if(zombie.getHealth() < 0) {
-                    Zombies.remove(zombie);
-                    removeObject(zombie.imageView);
-                }
-            }));
-            t.setCycleCount(Animation.INDEFINITE);
-            t.play();
+            if(zombie.getActiveStatus()){
+                Timeline t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                    if(zombie.getHealth() < 0) {
+//                    Zombies.remove(zombie);
+                        zombie.setActiveFalse();
+                        removeObject(zombie.imageView);
+                    }
+                }));
+                t.setCycleCount(Animation.INDEFINITE);
+                t.play();
+            }
         }
     }
 
     void zombie_reached_house(){
         for(Zombie zombie: Zombies){
-            var lambdaContext = new Object() {
-                Timeline t = null;
-            };
-            lambdaContext.t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
-                ImageView zombie_image = zombie.imageView;
-                if(zombie_image.getLocalToSceneTransform().getTx() < 10 && zombie_image.isVisible()){
-                    System.out.println("Game Over");
+            if(zombie.getActiveStatus()){
+                var lambdaContext = new Object() {
+                    Timeline t = null;
+                };
+                lambdaContext.t = new Timeline( new KeyFrame( Duration.seconds(0.5),(event) -> {
+                    ImageView zombie_image = zombie.imageView;
+                    if(zombie_image.getLocalToSceneTransform().getTx() < 10 && zombie_image.isVisible()){
+                        System.out.println("Game Over");
+                        lambdaContext.t.stop();
+                        try {
+                            FXMLLoader GameLostLoader = new FXMLLoader(getClass().getResource("GameLost.fxml"));
+                            AnchorPane LSParent = GameLostLoader.load();
+                            GameWonController controller = GameLostLoader.getController();
+                            controller.setCurr_level(LevelNo);
+                            Scene LScene = new Scene(LSParent);
+                            Stage oldPlayer_stage = (Stage) LevelSceneMainPane.getScene().getWindow();
+                            oldPlayer_stage.setScene(LScene);
 
-                    lambdaContext.t.stop();
-                    Parent new_parent = null;
-                    try {
-                        new_parent = FXMLLoader.load(getClass().getResource("GameLost.fxml"));
-                        Scene new_scene = new Scene(new_parent);
-                        Stage old_stage = (Stage) menu.getScene().getWindow();
-                        old_stage.setScene(new_scene);
-
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
-
-//                    Image image = new Image(getClass().getResourceAsStream("/Images/loser.jpeg"));
-//                    ImageView imageView = new ImageView();
-//                    imageView.setImage(image);
-//                    imageView.setFitWidth(300);
-//                    imageView.setFitHeight(200);
-//                    Pane pane = new Pane(imageView);
-//                    pane.setLayoutY(100);
-//                    pane.setLayoutX(200);
-//                    LevelSceneMainPane.getChildren().add(pane);
-//                    imageView.setVisible(true);
-                }
-            }));
-            lambdaContext.t.setCycleCount(Animation.INDEFINITE);
-            lambdaContext.t.play();
+                }));
+                lambdaContext.t.setCycleCount(Animation.INDEFINITE);
+                lambdaContext.t.play();
+            }
         }
     }
 
     void gameWin() {
-        final boolean[] flag = {false};
         var lambdaContext = new Object() {
             Timeline t = null;
         };
         lambdaContext.t =  new Timeline(new KeyFrame(Duration.seconds(0.5), (event) -> {
-            try {
-                Zombies.get(0);
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("You win");
-                flag[0] = true;
-//                System.out.println("Timeline stopped");
-//                System.out.println("Game won");
-                lambdaContext.t.stop();
-                try {
-                    Parent new_parent = FXMLLoader.load(getClass().getResource("GameWon.fxml"));
-                    Scene new_scene = new Scene(new_parent);
-                    Stage old_stage = (Stage) menu.getScene().getWindow();
-                    old_stage.setScene(new_scene);
+           boolean won = true;
+           for(Zombie zombie: Zombies){
+               if(zombie.getActiveStatus()){
+                   won = false;
+               }
+           }
+           if(won){
+               System.out.println("You win");
+               lambdaContext.t.stop();
+               try {
+                   FXMLLoader GameWonLoader = new FXMLLoader(getClass().getResource("GameWon.fxml"));
+                   AnchorPane LSParent = GameWonLoader.load();
+                   GameWonController controller = GameWonLoader.getController();
+                   controller.setCurr_level(LevelNo);
+                   Scene LScene = new Scene(LSParent);
+                   Stage oldPlayer_stage = (Stage) LevelSceneMainPane.getScene().getWindow();
+                   oldPlayer_stage.setScene(LScene);
 
-//                    FXMLLoader GameWonLoader = new FXMLLoader(getClass().getResource("LevelScene.fxml"));
-//                    AnchorPane LSParent = GameWonLoader.load();
-//                    GameWonController controller = GameWonLoader.getController();
-//                    controller.setCurr_level(LevelNo);
-//                    Scene LScene = new Scene(LSParent);
-//                    Stage oldPlayer_stage = (Stage) LevelSceneMainPane.getScene().getWindow();
-//                    oldPlayer_stage.setScene(LScene);
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
-//                Image image = new Image(getClass().getResourceAsStream("/Images/win.jpg"));
-//                ImageView imageView = new ImageView();
-//                imageView.setImage(image);
-//                imageView.setFitWidth(300);
-//                imageView.setFitHeight(200);
-//                Pane pane = new Pane(imageView);
-//                pane.setLayoutY(100);
-//                pane.setLayoutX(200);
-//                LevelSceneMainPane.getChildren().add(pane);
-//                imageView.setVisible(true);
-            }
+               } catch (IOException ex) {
+                   ex.printStackTrace();
+               }
+           }
         }));
         lambdaContext.t.setCycleCount(Animation.INDEFINITE);
         lambdaContext.t.play();
@@ -387,22 +372,27 @@ public class LevelSceneController implements Initializable, Serializable {
         ImageView zombie = zombie_object.imageView;
         if(collisionDetection(plant, zombie)){
 //            System.out.println("Collided with Plant");
-            if(plant_object.getClass().equals("PeaShooter") || plant_object.getClass().equals("Sunflower")){
+            if(plant_object.getClass().getName().equals("PeaShooter") || plant_object.getClass().getName().equals("Sunflower")){
                 zombie_object.attack(plant_object, this);
                 plant_object.setActiveFalse();
                 removeObject(plant);
             }
-            else if(plant_object.getClass().equals("CherryBomb")){
-                Zombies.remove(zombie_object);
+            else if(plant_object.getClass().getName().equals("CherryBomb")){
+//                Zombies.remove(zombie_object);
+                zombie_object.setActiveFalse();
                 removeObject(zombie);
             }
-            else if(plant_object.getClass().equals("WalnutBomb")){
-                TranslateTransition t = zombie_object.T;
-                SequentialTransition seqTransition = new SequentialTransition (
-                        new PauseTransition(Duration.seconds(10)), t);
-                seqTransition.play();
+            else if(plant_object.getClass().getName().equals("WalnutBomb")){
+                TranslateTransition T = zombie_object.T;
+                T.stop();
+                Timeline t = new Timeline( new KeyFrame( Duration.seconds(5),(event) -> {
+                    System.out.println("walnut");
+                }));
+                t.setCycleCount(1);
+                t.play();
                 plant_object.setActiveFalse();
                 removeObject(plant);
+                T.play();
             }
         }
     }
@@ -429,7 +419,8 @@ public class LevelSceneController implements Initializable, Serializable {
         ImageView zombie = zombie_object.imageView;
         if(collisionDetection(lawnmower, zombie)){
             lawnmower_object.attack();
-            Zombies.remove(zombie_object);
+//            Zombies.remove(zombie_object);
+            zombie_object.setActiveFalse();
             removeObject(zombie);
         }
     }

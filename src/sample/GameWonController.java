@@ -29,6 +29,7 @@ public class GameWonController {
     @FXML
     public void changeScene_levelScene(javafx.event.ActionEvent actionEvent) throws IOException {
         String Level = curr_level;
+//        Level = Level.substring(0, 4) + "";
         FXMLLoader LevelSceneLoader= new FXMLLoader(getClass().getResource("LevelScene.fxml"));
         AnchorPane GameWinScreen = LevelSceneLoader.load();
         LevelSceneController controller = LevelSceneLoader.getController();
@@ -41,4 +42,5 @@ public class GameWonController {
     void setCurr_level(String level){
         curr_level = level;
     }
+
 }

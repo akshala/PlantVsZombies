@@ -13,7 +13,7 @@
             <Image url="@../Images/win.jpeg" />
          </image>
       </ImageView>
-      <Button layoutX="379.0" layoutY="313.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="124.0" text="Next Level" />
+      <Button fx:id="nextLevel" layoutX="379.0" layoutY="313.0" mnemonicParsing="false" onAction="#changeScene_levelScene" prefHeight="34.0" prefWidth="124.0" text="Next Level" />
       <Button fx:id="mainMenuButton" layoutX="129.0" layoutY="313.0" mnemonicParsing="false" onAction="#changeScene_mainMenu" prefHeight="34.0" prefWidth="135.0" text="Main Menu" />
    </children>
 </AnchorPane>
