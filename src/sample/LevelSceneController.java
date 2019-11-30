@@ -307,25 +307,22 @@ public class LevelSceneController implements Initializable, Serializable {
                     lambdaContext.t.stop();
                     Parent new_parent = null;
                     try {
-                        new_parent = FXMLLoader.load(getClass().getResource("GameLost.fxml"));
-                        Scene new_scene = new Scene(new_parent);
-                        Stage old_stage = (Stage) menu.getScene().getWindow();
-                        old_stage.setScene(new_scene);
+//                        new_parent = FXMLLoader.load(getClass().getResource("GameLost.fxml"));
+//                        Scene new_scene = new Scene(new_parent);
+//                        Stage old_stage = (Stage) menu.getScene().getWindow();
+//                        old_stage.setScene(new_scene);
+
+                        FXMLLoader GameLostLoader = new FXMLLoader(getClass().getResource("GameLost.fxml"));
+                        AnchorPane LSParent = GameLostLoader.load();
+                        GameWonController controller = GameLostLoader.getController();
+                        controller.setCurr_level(LevelNo);
+                        Scene LScene = new Scene(LSParent);
+                        Stage oldPlayer_stage = (Stage) LevelSceneMainPane.getScene().getWindow();
+                        oldPlayer_stage.setScene(LScene);
 
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-
-//                    Image image = new Image(getClass().getResourceAsStream("/Images/loser.jpeg"));
-//                    ImageView imageView = new ImageView();
-//                    imageView.setImage(image);
-//                    imageView.setFitWidth(300);
-//                    imageView.setFitHeight(200);
-//                    Pane pane = new Pane(imageView);
-//                    pane.setLayoutY(100);
-//                    pane.setLayoutX(200);
-//                    LevelSceneMainPane.getChildren().add(pane);
-//                    imageView.setVisible(true);
                 }
             }));
             lambdaContext.t.setCycleCount(Animation.INDEFINITE);
@@ -344,37 +341,24 @@ public class LevelSceneController implements Initializable, Serializable {
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("You win");
                 flag[0] = true;
-//                System.out.println("Timeline stopped");
-//                System.out.println("Game won");
                 lambdaContext.t.stop();
                 try {
-                    Parent new_parent = FXMLLoader.load(getClass().getResource("GameWon.fxml"));
-                    Scene new_scene = new Scene(new_parent);
-                    Stage old_stage = (Stage) menu.getScene().getWindow();
-                    old_stage.setScene(new_scene);
+//                    Parent new_parent = FXMLLoader.load(getClass().getResource("GameWon.fxml"));
+//                    Scene new_scene = new Scene(new_parent);
+//                    Stage old_stage = (Stage) menu.getScene().getWindow();
+//                    old_stage.setScene(new_scene);
 
-//                    FXMLLoader GameWonLoader = new FXMLLoader(getClass().getResource("LevelScene.fxml"));
-//                    AnchorPane LSParent = GameWonLoader.load();
-//                    GameWonController controller = GameWonLoader.getController();
-//                    controller.setCurr_level(LevelNo);
-//                    Scene LScene = new Scene(LSParent);
-//                    Stage oldPlayer_stage = (Stage) LevelSceneMainPane.getScene().getWindow();
-//                    oldPlayer_stage.setScene(LScene);
+                    FXMLLoader GameWonLoader = new FXMLLoader(getClass().getResource("GameWon.fxml"));
+                    AnchorPane LSParent = GameWonLoader.load();
+                    GameWonController controller = GameWonLoader.getController();
+                    controller.setCurr_level(LevelNo);
+                    Scene LScene = new Scene(LSParent);
+                    Stage oldPlayer_stage = (Stage) LevelSceneMainPane.getScene().getWindow();
+                    oldPlayer_stage.setScene(LScene);
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
-//                Image image = new Image(getClass().getResourceAsStream("/Images/win.jpg"));
-//                ImageView imageView = new ImageView();
-//                imageView.setImage(image);
-//                imageView.setFitWidth(300);
-//                imageView.setFitHeight(200);
-//                Pane pane = new Pane(imageView);
-//                pane.setLayoutY(100);
-//                pane.setLayoutX(200);
-//                LevelSceneMainPane.getChildren().add(pane);
-//                imageView.setVisible(true);
             }
         }));
         lambdaContext.t.setCycleCount(Animation.INDEFINITE);
@@ -387,16 +371,16 @@ public class LevelSceneController implements Initializable, Serializable {
         ImageView zombie = zombie_object.imageView;
         if(collisionDetection(plant, zombie)){
 //            System.out.println("Collided with Plant");
-            if(plant_object.getClass().equals("PeaShooter") || plant_object.getClass().equals("Sunflower")){
+            if(plant_object.getClass().getName().equals("PeaShooter") || plant_object.getClass().getName().equals("Sunflower")){
                 zombie_object.attack(plant_object, this);
                 plant_object.setActiveFalse();
                 removeObject(plant);
             }
-            else if(plant_object.getClass().equals("CherryBomb")){
+            else if(plant_object.getClass().getName().equals("CherryBomb")){
                 Zombies.remove(zombie_object);
                 removeObject(zombie);
             }
-            else if(plant_object.getClass().equals("WalnutBomb")){
+            else if(plant_object.getClass().getName().equals("WalnutBomb")){
                 TranslateTransition t = zombie_object.T;
                 SequentialTransition seqTransition = new SequentialTransition (
                         new PauseTransition(Duration.seconds(10)), t);
